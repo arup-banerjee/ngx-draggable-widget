@@ -1,0 +1,10 @@
+.board {
+  height: auto;
+  overflow: auto; 
+}
+
+.data-table td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

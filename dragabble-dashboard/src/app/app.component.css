@@ -1,0 +1,161 @@
+body {
+    background-color: #282828;
+}
+
+.widget {
+    border: solid 2px #333333;
+    background-color: #282828;
+}
+
+.handle {
+    width: 100%;
+    height: 50px;
+    color: #ffffff;
+    background: #424A51;
+    font-weight: 500;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.btn {
+    margin-left: 10px;
+}
+
+.box-header-btns {
+    top: 15px;
+    right: 10px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.navbar-default {
+    background: #333333;
+    border: 0px;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+
+/* .row:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+} */
+
+.col-xs-3:not(:last-child) {
+    border-right: 1px solid #ccc;
+}
+
+.centre-content {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    margin-top: 5px;
+    padding-top: 5px;
+    font-family: arial, sans-serif;
+    /* border-collapse: collapse; */
+    width: 100%;
+    border: 0
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+table,
+th,
+td {
+    border: 0px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 5px;
+    text-align: left;
+    transition: background 0.4s ease-out;
+}
+
+table#t00 tr:nth-child(even) {
+    color: rgb(255, 116, 0);
+    background-color: #172F3A;
+}
+
+table#t00 tr:nth-child(odd) {
+    color: rgb(255, 116, 0);
+    background-color: #282828;
+}
+
+table#t00 th {
+    background-color: #282828;
+    ;
+    color: white;
+}
+
+table#t00 tr:hover {
+    background-color: #ff7400;
+    color: white;
+}
+
+table#t01 tr:nth-child(even) {
+    color: rgb(255, 116, 0);
+    background-color: #1E0504;
+}
+
+table#t01 tr:nth-child(odd) {
+    color: rgb(255, 116, 0);
+    background-color: #311B1C;
+}
+
+table#t01 th {
+    background-color: #282828;
+    color: white;
+}
+
+table#t01 tr:hover {
+    background-color: #ff7400;
+    color: white;
+}
+
+.tool-tip-table {
+    opacity: 1;
+    width: 500px;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+    border: 1px solid;
+}
+
+.tool-tip-table th {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.tool-tip-table tbody {
+    font-size: 16px;
+}
+
+.table-striped tr:nth-child(odd) td,
+th {
+    background-color: #4f74af;
+}
+
+.table-striped tr:nth-child(even) td,
+th {
+    background-color: #2a2d49
+}
+
+.tool-tip-table tr {
+    /* height: 10px; */
+    text-align: left;
+}

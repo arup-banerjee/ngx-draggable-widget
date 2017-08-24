@@ -1,0 +1,62 @@
+{
+    "name": "ngx-draggable-widget",
+    "version": "1.0.1",
+    "description": "[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget)\r [![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget)\r [![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget)\r [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE)\r [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues)\r [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)",
+    "main": "karma.conf.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "cleanup": "rimraf dist/bundles dist/components dist/directives dist/interfaces dist/modules dist/main.d.ts dist/main.metadata.json dist/main.js dist/main.js.map dist/LICENSE dist/README.md",
+        "bundling": "rollup -c",
+        "minify": "uglifyjs dist/bundles/NgDraggableWidget.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/NgDraggableWidget.umd.min.js",
+        "copy": "copyfiles -f LICENSE README.md src/*.css dist",
+        "build": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arup-banerjee/ngx-draggable-widget.git"
+    },
+    "author": "Arup Banerjee arup@alanaamy.net (https//www.alanaamy.net)",
+    "contributors": [],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/arup-banerjee/ngx-draggable-widget/issues"
+    },
+    "homepage": "https://github.com/arup-banerjee/ngx-draggable-widget#readme",
+    "files": [
+        "dist/NgDraggableWidget*",
+        "dist/js/",
+        "dist/bundles/",
+        "dist/aot/",
+        "dist/typings/"
+    ],
+    "keywords": [
+        "angular",
+        "angular-cli",
+        "angular4",
+        "widgets",
+        "draggable",
+        "web-component",
+        "angular2"
+    ],
+    "devDependencies": {
+        "@angular/compiler": "^4.3.5",
+        "@angular/compiler-cli": "^4.3.5",
+        "@angular/core": "^4.3.5",
+        "copyfiles": "^1.0.0",
+        "jasmine": "^2.7.0",
+        "karma": "^1.7.0",
+        "karma-coverage": "^1.1.1",
+        "karma-jasmine": "^1.1.0",
+        "karma-phantomjs-launcher": "^1.0.4",
+        "karma-typescript": "^3.0.5",
+        "reflect-metadata": "^0.1.8",
+        "rimraf": "^2.5.4",
+        "rollup": "^0.48.2",
+        "rxjs": "^5.0.1",
+        "typescript": "~2.4.2",
+        "uglify-js": "^3.0.28",
+        "zone.js": "^0.8.16"
+    }
+}

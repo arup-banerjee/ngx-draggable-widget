@@ -1,0 +1,33 @@
+{
+  "name": "ngx-draggable-widget",
+  "version": "1.0.1",
+  "homepage": "http://draggabledashboard.alanaamy.net",
+  "authors": [
+  ],
+  "description": "Ngx Draggable Widget is a drag & drop , resize , cascade , overlap capable structural directive targeting Angular 4",
+  "main": "NgDraggableWidget.ts",
+  "moduleType": [
+    "umd"
+  ],
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular4",
+    "angularjs",
+    "grid",
+    "drag",
+    "drop",
+    "resize",
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "*",
+    "!src/NgDraggableWidget.ts",
+    "!dist/NgDraggableWidget.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arup-banerjee/ngx-draggable-widget.git"
+  }
+}
