@@ -1,4 +1,15 @@
-[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget)\r [![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget)\r [![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget)\r [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE)\r [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues)\r [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)"[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget)\r [![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget)\r [![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget)\r [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE)\r [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues)\r [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)
+[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget) 
+[![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget) 
+[![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget) 
+[![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE) 
+[![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues) 
+[![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#) 
+[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget) 
+[![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget) 
+[![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget) 
+[![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE) 
+[![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues) 
+[![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)
 
 # Ngx Draggable Widget
 Ngx Draggable Widget is a **_drag & drop , resize , cascade , overlap_** capable __"[ngWidgetContainer]"__ and __"[ngWidget]"__ structural directive component library for [Angular 4](http://angular.io).
@@ -31,7 +42,7 @@ NOTE: By default Angular 4 and System.js are not listed as actual dependencies, 
 
 To use this in your own application, all you need to do is add the **`[ngWidgetContainer]`** attribute to your container element and **`[ngWidget]`** to each item. You can use this in conjunction with `NgFor` and or `ngSwitch` to create a truly dynamic Angular 4 dashboard of widgets.
 
-To configure the grid with your own options, it is as easy as adding them as the attribute value. The defaults for the widget container are:
+To configure the widget container with your own options, it is as easy as adding them as the attribute value. The defaults for the widget container are:
 
 ```javascript
 {
@@ -44,8 +55,8 @@ To configure the grid with your own options, it is as easy as adding them as the
     'visible_rows': 0,          //  The number of rows shown on screen when auto_resize is set to true. Set to 0 to not auto_resize. Will be overriden by max_rows
     'min_cols': 0,              //  The minimum number of columns allowed. Can be any number greater than or equal to 1.
     'min_rows': 0,              //  The minimum number of rows allowed. Can be any number greater than or equal to 1.
-    'col_width': 250,           //  The width of each column
-    'row_height': 250,          //  The height of each row
+    'col_width': 2,             //  The width of each column
+    'row_height': 2,            //  The height of each row
     'cascade': 'up',            //  The direction to cascade widgets ('up', 'right', 'down', 'left')
     'min_width': 100,           //  The minimum width of a widget. If greater than col_width, this will update the value of min_cols
     'min_height': 100,          //  The minimum height of an item. If greater than row_height, this will update the value of min_rows
@@ -60,7 +71,7 @@ To configure the grid with your own options, it is as easy as adding them as the
 }
 ```
 
-The defaults for the grid item are:
+The defaults for the widget item are:
 
 ```javascript
 {
@@ -70,8 +81,7 @@ The defaults for the grid item are:
     'sizey': 1,             //  The start height in terms of rows for the widget
     'dragHandle': null,     //  The selector to be used for the drag handle. If null, uses the whole widget
     'resizeHandle': null,   //  The selector to be used for the resize handle. If null, uses 'borderSize' pixels from the right for horizontal resize,
-                            //    'borderSize' pixels from the bottom for vertical, and the square in the corner bottom-right for both
-    'borderSize': 15,
+    'borderSize': 15,       //  'borderSize' pixels from the bottom for vertical, and the square in the corner bottom-right for both
     'fixed': false,         //  If the widget should be cascaded or not. If yes, manual movement is required
     'draggable': true,      //  If the widget can be dragged. If this or the global setting is set to false, the widget cannot be dragged.
     'resizable': true,      //  If the widget can be resized. If this or the global setting is set to false, the widget cannot be resized.
