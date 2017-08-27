@@ -48,7 +48,9 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	public minWidth: number = 100;
 	public minHeight: number = 100;
 	public zIndex: number = 1;
-	public allowOverlap: boolean = false;
+    public allowOverlap: boolean = false;
+    public widget_width_factor: number = 0;
+    public widget_height_factor: number = 0;
 
 	// 	private variables
 	private _items: Array<NgWidget> = [];
@@ -101,7 +103,9 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		maintain_ratio: false,
 		prefer_new: false,
 		zoom_on_drag: false,
-		allow_overlap: false
+        allow_overlap: false,
+        widget_width_factor: 0,
+        widget_height_factor: 0
 	};
 	private _config = NgWidgetContainer.CONST_DEFAULT_CONFIG;
 
@@ -133,15 +137,16 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		this._destroyed = true;
 	}
 
+	public getConfig(): INgWidgetContainerConfig {
+		return this._config;
+	}
+
 	public setConfig(config: INgWidgetContainerConfig): void {
 		this._config = config;
 
-		// tslint:disable:typedef
 		var maxColRowChanged = false;
-		// tslint:disable-next-line:forin
 		for (var x in config) {
 			var val = config[x];
-			// tslint:disable-next-line:radix
 			var intVal = !val ? 0 : parseInt(val);
 
 			switch (x) {
@@ -220,6 +225,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 				case 'allow_overlap':
 					this.allowOverlap = val ? true : false;
 					break;
+                case 'widget_width_factor':
+                    this.widget_width_factor = Math.max(intVal, 0);
+                    break;
+                case 'widget_height_factor':
+                    this.widget_height_factor = Math.max(intVal, 0);
+                    break;
 			}
 		}
 

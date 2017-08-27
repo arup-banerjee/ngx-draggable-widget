@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
-
+- Enhancement #2 Widget dimensions in terms of user specified Units
 ### Fixed
 
 ### Added

@@ -1,31 +1,34 @@
 {
-  "name": "ngx-draggable-widget",
-  "version": "1.0.1",
-  "description": "drag and drop, resize, cascade, overlap 'ngWidgetContainer' and 'ngWidget', structural directive component library",
-  "module": "main.js",
-  "main": "bundles/NgDraggableWidget.umd.min.js",
-  "typings": "main.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arup-banerjee/ngx-draggable-widget.git"
-  },
-  "keywords": [
-    "angular",
-    "angular2",
-    "grid",
-    "web-components"
-  ],
-  "author": "Arup Banerjee <arup@alanaamy.net> (https://www.alanaamy.net/)",
-  "contributors": [],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/arup-banerjee/ngx-draggable-grid/issues"
-  },
-  "homepage": "http://draggablewidgets.alanaamy.net",
-  "peerDependencies": {
-    "@angular/core": ">=2 <=4",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "^5.0.1",
-    "zone.js": "^0.7.2"
-  }
+    "name": "ngx-draggable-widget",
+    "version": "1.0.1",
+    "description": "drag and drop, resize, cascade, overlap 'ngWidgetContainer' and 'ngWidget', structural directive component library",
+    "module": "main.js",
+    "main": "bundles/NgDraggableWidget.umd.min.js",
+    "typings": "main.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/arup-banerjee/ngx-draggable-widget.git"
+    },
+    "keywords": [
+        "angular",
+        "angular2",
+        "angular4",
+        "widget",
+        "draggable",
+        "layout",
+        "web-components"
+    ],
+    "author": "Arup Banerjee <arup@alanaamy.net> (https://www.alanaamy.net/)",
+    "contributors": [],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/arup-banerjee/ngx-draggable-grid/issues"
+    },
+    "homepage": "http://draggablewidgets.alanaamy.net",
+    "peerDependencies": {
+        "@angular/core": ">=2 <=4",
+        "reflect-metadata": "^0.1.8",
+        "rxjs": "^5.0.1",
+        "zone.js": "^0.7.2"
+    }
 }

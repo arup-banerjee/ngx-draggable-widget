@@ -17,7 +17,7 @@ The demo included in this repo follows the [Angular CLI based quick start](https
 
 Check the live example at [Ngx Draggable Widget Demo with dynamic configuration](http://draggablewidgets.alanaamy.net/)
 
-Or Check another live working example [Draggable Dashboard](http://draggabledashboard.alanaamy.net) which is a working typescript example project located at [draggable dashboard folder in the source](https://github.com/arup-banerjee/ngx-draggable-widget/tree/master/draggable-dashboard)
+Or Check another live working example [Draggable Dashboard](http://draggabledashboard.alanaamy.net) which is a working typescript angular cli example project located at [draggable dashboard folder in the source](https://github.com/arup-banerjee/ngx-draggable-widget/tree/master/draggable-dashboard) using ngx-draggable-widget
 
 #### Setup
 ----------
@@ -68,6 +68,8 @@ To configure the widget container with your own options, it is as easy as adding
     'zoom_on_drag': false,      //  Zoom out when dragging. Useful when widgets are outside the limits of the screen
     'allow_overlap':false,      //  When dragging or resize , the widegts will not cascade, instead they would overlap
     'limit_to_screen': false,   //  When resizing the screen, with this true and auto_resize false, the grid will re-arrange to fit the screen size. Please note, at present this only works with cascade direction up.
+    'widget_width_factor': 22   //  number of pixels that defines a logical user defined width. By default this is not set.However if this is set then unitx in the respective widget will be used to set the initial size of the the widget and override sizex of the widget. Note this is only meaningful to the widgets if they specifically have unitx defined. Else this value has no effect
+    'widget_height_factor': 22   //  number of pixels that defines a logical user defined height. By default this is not set.However if this is set then unity in the respective widget will be used to set the initial size of the the widget height and override sizey of the widget. Note this is only meaningful to the widgets if they specifically have unity defined. Else this value has no effect
 }
 ```
 
@@ -92,6 +94,7 @@ The defaults for the widget item are:
     'minRows': 0,           //  The minimum number of rows for a particular widget. This value will only override the value from the widget container if larger
     'minWidth': 0,          //  The minimum width of a particular widget. This value will override the value from the widget container, as well as the minimum columns if the resulting size is larger
     'minHeight': 0,         //  The minimum height of a particular widget. This value will override the value from the widget container, as well as the minimum rows if the resulting size is larger
+    'unitx': 0,         //  The unitx defines the initial logical width of the widget. The actual width in pixels is the multiple of this logical unit with the corresponding widget_width_factor
 }
 ```
 
@@ -150,7 +153,7 @@ interface NgWidgetEvent {
 There are three elements that can be styled with ngx-draggable-widget, the container itself `.container`, the items `.widget` and the placeholder `.placeholder`. The demo includes some basic styling in NgWidgetContainer.css which you can include in your app's `styleUrls` property. It also includes some @media queries styles to handle responsiveness on smaller screens. This simple force the boxes to full width and puts them inline in their original order. This is optional functionality and does not need to be included. In order for correct functionality, the required styles are added by the classes themselves at run-time:
 
 ```css
-.container {
+.widget-container {
     position: relative;
 }
 
@@ -162,7 +165,7 @@ There are three elements that can be styled with ngx-draggable-widget, the conta
     z-index: z-index + 1;
 }
 
-.placeholder {
+.widget-placeholder {
     position: absolute;
 }
 ```

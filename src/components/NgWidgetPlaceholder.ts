@@ -24,7 +24,7 @@ export class NgWidgetPlaceholder implements OnInit {
 	}
 
 	public ngOnInit(): void {
-		this._renderer.setElementClass(this._ngEl.nativeElement, 'grid-placeholder', true);
+		this._renderer.setElementClass(this._ngEl.nativeElement, 'widget-placeholder', true);
 		if (this._ngWidgetContainer.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'absolute');
 	}
 

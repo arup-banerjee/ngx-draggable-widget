@@ -13,15 +13,15 @@ System.baseURL = '/base/';
 // be able for example to import 'test/test_name'
 // instead of 'scripts/build/test_name'
 System.defaultJSExtensions = true;
-System.config({
-    paths: {
-        'angular/*': 'node_modules/@angular/*'
-    },
-    packages: {
-        'dist': { defaultExtension: 'js', format: 'register' },
-        'test': { defaultExtension: 'js', format: 'register' }
-    }
-})
+// System.config({
+// 	paths: {
+// 	    '@angular/*': 'node_modules/@angular/*'
+// 	},
+// 	packages: {
+// 	    'dist': {defaultExtension: 'js', format: 'register'},
+// 	    'test': {defaultExtension: 'js', format: 'register'}
+// 	}
+// })
 
 // paths that include spec and ends with .js
 function onlySpecFiles(path) {

@@ -35,7 +35,9 @@ export class NgWidget implements OnInit, OnDestroy {
 		fixed: false,
 		draggable: true,
 		resizable: true,
-		borderSize: 25
+		borderSize: 25,
+        unitx: 0,
+        unity: 0
 	};
 
 	public isFixed: boolean = false;
@@ -66,11 +68,10 @@ export class NgWidget implements OnInit, OnDestroy {
 
 	// 	[ng-widget] handler
 	set config(v: INgWidgetConfig) {
-		// tslint:disable-next-line:typedef
 		const defaults = NgWidget.CONST_DEFAULT_CONFIG;
 
 		for (let x in defaults) {
-			if (v[x] == null) {
+			if (!v[x]) {
 				v[x] = defaults[x];
 			}
 		}
@@ -308,9 +309,26 @@ export class NgWidget implements OnInit, OnDestroy {
 
 		this._payload = config.payload;
 		this._currentPosition.col = config.col ? config.col : NgWidget.CONST_DEFAULT_CONFIG.col;
-		this._currentPosition.row = config.row ? config.row : NgWidget.CONST_DEFAULT_CONFIG.row;
-		this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
-		this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
+        this._currentPosition.row = config.row ? config.row : NgWidget.CONST_DEFAULT_CONFIG.row;
+        //this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
+		//this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
+        console.log('(this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null', (this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null);
+        console.log('(this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null', (this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null);
+        if ((this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null) {
+            this._size.x = this._ngWidgetContainer.widget_width_factor * config.unitx;
+            console.log(this._size.x, this._ngWidgetContainer.widget_width_factor * config.unitx);
+        }
+        else {
+            this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
+        }
+
+        if ((this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null) {
+            this._size.y = this._ngWidgetContainer.widget_height_factor * config.unity;
+        }
+        else {
+            this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
+        }
+
 		this._dragHandle = config.dragHandle;
 		this._resizeHandle = config.resizeHandle;
 		this._borderSize = config.borderSize;

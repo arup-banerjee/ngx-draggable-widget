@@ -30,7 +30,7 @@ export class AppComponent {
                                       'min_rows': 1,
                                       'col_width': 2,
                                       'row_height': 2,
-                                      'cascade': 'up',
+                                      'cascade': 'left',
                                       'min_width': 50,
                                       'min_height': 50,
                                       'fix_to_grid': false,
@@ -40,7 +40,8 @@ export class AppComponent {
                                       'prefer_new': false,
                                       'zoom_on_drag': false,
                                       'limit_to_screen': false,
-                                      'allow_overlap': false };
+                                      'allow_overlap': false,
+                                      'widget_width_factor': 22};
   private itemPositions: Array<any> = [];
   title = 'app';
 
@@ -59,10 +60,14 @@ export class AppComponent {
                          break;
 
                       case 2:
-                         this.boxes[i] = { id: i + 1, config: conf, name: 'Complex Product Market' };
+                         this.boxes[i] = { id: i + 1, config: conf, name: 'Assessment' };
                          break;
 
                       case 3:
+                         this.boxes[i] = { id: i + 1, config: conf, name: 'Complex Product Market' };
+                         break;
+
+                      case 4:
                          this.boxes[i] = { id: i + 1, config: conf, name: 'Market Data' };
                          break;
 
@@ -105,11 +110,17 @@ private _generateDefaultItemConfig(): INgWidgetConfig {
 
 private _generateDefaultDashConfig(): INgWidgetConfig[] {
     return [
-      { 'dragHandle': '.handle', 'col': 1, 'row': 1, 'sizex': 50, 'sizey': 25, 'maxCols': 44 , 'minCols': 44, 'resizable': false},
-      { 'dragHandle': '.handle', 'col': 45, 'row': 1, 'sizex': 50, 'sizey': 25, 'maxCols': 44, 'minCols': 44, 'resizable': false},
-      { 'dragHandle': '.handle', 'col': 1, 'row': 2, 'sizex': 115, 'sizey': 1, 'maxCols': 102, 'minCols': 102},
-      { 'dragHandle': '.handle', 'col': 1, 'row': 3, 'sizex': 75, 'sizey': 1 },
-      { 'dragHandle': '.handle', 'col': 51, 'row': 26, 'sizex': 32, 'sizey': 40 },
-      { 'dragHandle': '.handle', 'col': 89, 'row': 1, 'sizex': 1, 'sizey': 1 }];
+      //{ 'dragHandle': '.handle', 'col': 1, 'row': 1, 'sizex': 44, 'sizey': 25, 'resizable': false},
+      //{ 'dragHandle': '.handle', 'col': 45, 'row': 1, 'sizex': 44, 'sizey': 25, 'resizable': false},
+      //{ 'dragHandle': '.handle', 'col': 1, 'row': 2, 'sizex': 102, 'sizey': 1},
+      //{ 'dragHandle': '.handle', 'col': 1, 'row': 3, 'sizex': 75, 'sizey': 1},
+      //{ 'dragHandle': '.handle', 'col': 51, 'row': 26, 'sizex': 32, 'sizey': 40},
+      //{ 'dragHandle': '.handle', 'col': 89, 'row': 1, 'sizex': 1, 'sizey': 1}];
+        { 'dragHandle': '.handle', 'row': 1,  'col': 1,  'resizable': false, 'unitx': 2 },
+        { 'dragHandle': '.handle', 'row': 1,  'col': 45, 'resizable': false, 'unitx': 2 },
+        { 'dragHandle': '.handle', 'row': 1,  'col': 51, 'unitx': 1 },
+        { 'dragHandle': '.handle', 'row': 26, 'col': 1,  'unitx': 4.6 },
+        { 'dragHandle': '.handle', 'row': 51, 'col': 1,  'unitx': 4 },
+        { 'dragHandle': '.handle', 'row': 76, 'col': 89, 'unitx': 1 }];
   }
 }

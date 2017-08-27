@@ -1,9 +1,9 @@
-import { NgWidgetContainer, NgWidget, NgGridPlaceholder } from '../dist/NgWidgetContainer';
+import { NgWidgetContainer, NgWidget, NgWidgetPlaceholder } from '../dist/main';
 
 export function main() {
-	describe("NgGridPlaceholder Component", () => {
+	describe("NgWidgetPlaceholder Component", () => {
 		it("should generate a ngGrid placeholder", () => {
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(null, null, null);
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(null, null, null);
 		});
 
 		it("should set the element class on init", () => {
@@ -12,8 +12,8 @@ export function main() {
 			var ngGrid: any = {
 				autoStyle: false
 			};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(ngEl, renderSpy, ngGrid);
-			ngGridPlaceholder.ngOnInit();
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(ngEl, renderSpy, ngGrid);
+			NgWidgetPlaceholder.ngOnInit();
 			expect(renderSpy.setElementClass).toHaveBeenCalledWith(ngEl, 'grid-placeholder', true);
 			expect(renderSpy.setElementStyle).not.toHaveBeenCalled();
 		});
@@ -24,43 +24,43 @@ export function main() {
 			var ngGrid: any = {
 				autoStyle: true
 			};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(ngEl, renderSpy, ngGrid);
-			ngGridPlaceholder.ngOnInit();
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(ngEl, renderSpy, ngGrid);
+			NgWidgetPlaceholder.ngOnInit();
 			expect(renderSpy.setElementClass).toHaveBeenCalledWith(ngEl, 'grid-placeholder', true);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl,'position', 'absolute');
 		});
 
 		it("should set the size", () => {
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(null, null, null);
-			spyOn(ngGridPlaceholder, '_recalculateDimensions');
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(null, null, null);
+			spyOn(NgWidgetPlaceholder, '_recalculateDimensions');
 			var newSizeX = 31;
 			var newSizeY = 27;
-			ngGridPlaceholder.setSize(newSizeX, newSizeY);
-			expect((<any>ngGridPlaceholder)._sizex).toBe(newSizeX);
-			expect((<any>ngGridPlaceholder)._sizey).toBe(newSizeY);
-			expect((<any>ngGridPlaceholder)._recalculateDimensions).toHaveBeenCalled();
+			NgWidgetPlaceholder.setSize(newSizeX, newSizeY);
+			expect((<any>NgWidgetPlaceholder)._sizex).toBe(newSizeX);
+			expect((<any>NgWidgetPlaceholder)._sizey).toBe(newSizeY);
+			expect((<any>NgWidgetPlaceholder)._recalculateDimensions).toHaveBeenCalled();
 		});
 
 		it("should set the grid position", () => {
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(null, null, null);
-			spyOn(ngGridPlaceholder, '_recalculatePosition');
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(null, null, null);
+			spyOn(NgWidgetPlaceholder, '_recalculatePosition');
 			var newCol = 31;
 			var newRow = 27;
-			ngGridPlaceholder.setGridPosition(newCol, newRow);
-			expect((<any>ngGridPlaceholder)._col).toBe(newCol);
-			expect((<any>ngGridPlaceholder)._row).toBe(newRow);
-			expect((<any>ngGridPlaceholder)._recalculatePosition).toHaveBeenCalled();
+			NgWidgetPlaceholder.setGridPosition(newCol, newRow);
+			expect((<any>NgWidgetPlaceholder)._col).toBe(newCol);
+			expect((<any>NgWidgetPlaceholder)._row).toBe(newRow);
+			expect((<any>NgWidgetPlaceholder)._recalculatePosition).toHaveBeenCalled();
 		});
 
 		it("should set the position according to the cascade type", () => {
 			var renderSpy = jasmine.createSpyObj('renderSpy', ['setElementStyle']);
 			var ngEl: any = {};
 			var ngGrid: any = {};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(ngEl, renderSpy, ngGrid);
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(ngEl, renderSpy, ngGrid);
 			var newX = 31;
 			var newY = 27;
 
-			(<any>ngGridPlaceholder)._setPosition(newX, newY);
+			(<any>NgWidgetPlaceholder)._setPosition(newX, newY);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'left', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'top', "27px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'right', null);
@@ -68,7 +68,7 @@ export function main() {
 			(<any>renderSpy.setElementStyle).calls.reset();
 
 			ngGrid.cascade = 'up';
-			(<any>ngGridPlaceholder)._setPosition(newX, newY);
+			(<any>NgWidgetPlaceholder)._setPosition(newX, newY);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'left', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'top', "27px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'right', null);
@@ -76,7 +76,7 @@ export function main() {
 			(<any>renderSpy.setElementStyle).calls.reset();
 
 			ngGrid.cascade = 'left';
-			(<any>ngGridPlaceholder)._setPosition(newX, newY);
+			(<any>NgWidgetPlaceholder)._setPosition(newX, newY);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'left', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'top', "27px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'right', null);
@@ -84,7 +84,7 @@ export function main() {
 			(<any>renderSpy.setElementStyle).calls.reset();
 			
 			ngGrid.cascade = 'right';
-			(<any>ngGridPlaceholder)._setPosition(newX, newY);
+			(<any>NgWidgetPlaceholder)._setPosition(newX, newY);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'right', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'top', "27px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'left', null);
@@ -92,7 +92,7 @@ export function main() {
 			(<any>renderSpy.setElementStyle).calls.reset();
 
 			ngGrid.cascade = 'down';
-			(<any>ngGridPlaceholder)._setPosition(newX, newY);
+			(<any>NgWidgetPlaceholder)._setPosition(newX, newY);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'left', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'bottom', "27px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'right', null);
@@ -103,10 +103,10 @@ export function main() {
 		it("should set the dimensions", () => {
 			var renderSpy = jasmine.createSpyObj('renderSpy', ['setElementStyle']);
 			var ngEl: any = {};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(ngEl, renderSpy, null);
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(ngEl, renderSpy, null);
 			var newWidth = 31;
 			var newHeight = 27;
-			(<any>ngGridPlaceholder)._setDimensions(newWidth, newHeight);
+			(<any>NgWidgetPlaceholder)._setDimensions(newWidth, newHeight);
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'width', "31px");
 			expect(renderSpy.setElementStyle).toHaveBeenCalledWith(ngEl, 'height', "27px");
 		});
@@ -120,13 +120,13 @@ export function main() {
 				marginBottom: 5,
 				rowHeight: 6
 			};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(null, null, ngGrid);
-			spyOn(ngGridPlaceholder, '_setPosition');
-			(<any>ngGridPlaceholder)._col = 7;
-			(<any>ngGridPlaceholder)._row = 8;
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(null, null, ngGrid);
+			spyOn(NgWidgetPlaceholder, '_setPosition');
+			(<any>NgWidgetPlaceholder)._col = 7;
+			(<any>NgWidgetPlaceholder)._row = 8;
 
-			(<any>ngGridPlaceholder)._recalculatePosition();
-			expect((<any>ngGridPlaceholder)._setPosition).toHaveBeenCalledWith(37, 109);
+			(<any>NgWidgetPlaceholder)._recalculatePosition();
+			expect((<any>NgWidgetPlaceholder)._setPosition).toHaveBeenCalledWith(37, 109);
 		});
 
 		it("should recalculate dimensions", () => {
@@ -138,13 +138,13 @@ export function main() {
 				marginBottom: 5,
 				rowHeight: 6
 			};
-			var ngGridPlaceholder: NgGridPlaceholder = new NgGridPlaceholder(null, null, ngGrid);
-			spyOn(ngGridPlaceholder, '_setDimensions');
-			(<any>ngGridPlaceholder)._sizex = 7;
-			(<any>ngGridPlaceholder)._sizey = 8;
+			var NgWidgetPlaceholder: NgWidgetPlaceholder = new NgWidgetPlaceholder(null, null, ngGrid);
+			spyOn(NgWidgetPlaceholder, '_setDimensions');
+			(<any>NgWidgetPlaceholder)._sizex = 7;
+			(<any>NgWidgetPlaceholder)._sizey = 8;
 
-			(<any>ngGridPlaceholder)._recalculateDimensions();
-			expect((<any>ngGridPlaceholder)._setDimensions).toHaveBeenCalledWith(39, 111);
+			(<any>NgWidgetPlaceholder)._recalculateDimensions();
+			expect((<any>NgWidgetPlaceholder)._setDimensions).toHaveBeenCalledWith(39, 111);
 		});
 	});
 }
