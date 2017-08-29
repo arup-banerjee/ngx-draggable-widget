@@ -1,21 +1,21 @@
 {
     "name": "ngx-draggable-widget",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget)\r [![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget)\r [![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget)\r [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE)\r [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues)\r [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)",
     "main": "karma.conf.js",
     "directories": {
         "test": "test"
     },
-  "scripts": {
-    "cleanup": "rimraf dist/bundles dist/components dist/directives dist/interfaces dist/modules dist/main.d.ts dist/main.metadata.json dist/main.js dist/main.js.map dist/LICENSE dist/README.md",
-    "bundling": "rollup -c",
-    "minify": "uglifyjs dist/bundles/NgDraggableWidget.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/NgDraggableWidget.umd.min.js",
-    "copy": "copyfiles -f LICENSE README.md src/*.css dist",
-    "copylocal": "cp -r dist/* dragabble-dashboard/node_modules/ngx-draggable-widget",
-    "build": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy",
-    "test": "npm run build && karma start test/karma.conf.js",
-    "buildtestdashboard": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy && npm run copylocal"
-  },
+    "scripts": {
+        "cleanup": "rimraf dist/bundles dist/components dist/directives dist/interfaces dist/modules dist/main.d.ts dist/main.metadata.json dist/main.js dist/main.js.map dist/LICENSE dist/README.md",
+        "bundling": "rollup -c",
+        "minify": "uglifyjs dist/bundles/NgDraggableWidget.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/NgDraggableWidget.umd.min.js",
+        "copy": "copyfiles -f LICENSE README.md src/*.css dist",
+        "copylocal": "cp -r dist/* dragabble-dashboard/node_modules/ngx-draggable-widget",
+        "build": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy",
+        "test": "npm run build && karma start test/karma.conf.js",
+        "buildtestdashboard": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy && npm run copylocal"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/arup-banerjee/ngx-draggable-widget.git"
@@ -91,6 +91,7 @@
         "tslint": "^5.6.0",
         "typescript": "^2.4.2",
         "uglify-js": "^3.0.28",
+        "wallaby-webpack": "0.0.39",
         "webpack": "^3.5.5",
         "zone.js": "^0.8.16"
     }
