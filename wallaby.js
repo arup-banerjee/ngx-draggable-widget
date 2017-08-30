@@ -1,14 +1,12 @@
 var wallabyWebpack = require('wallaby-webpack');
 var path = require('path');
 
-var compilerOptions = Object.assign(require('./tsconfig.json').compilerOptions);
 
 module.exports = function(wallaby) {
-    console.log(wallaby);
 
     var webpackPostprocessor = wallabyWebpack({
         entryPatterns: [
-            './base.spec.js',
+            'base.spec.js',
             'test/**/*spec.js'
         ],
 
@@ -37,6 +35,7 @@ module.exports = function(wallaby) {
 
     return {
         files: [
+            { pattern: 'base.spec.ts', load: false },
             { pattern: 'src/**/*.ts', load: false },
             { pattern: 'src/**/*.d.ts', ignore: true },
             { pattern: 'src/**/*.css', load: false },
@@ -55,6 +54,11 @@ module.exports = function(wallaby) {
 
         testFramework: 'jasmine',
 
+        preprocessors: {
+            '**/*.js': file => file.content
+              .replace('../dist/main', '../src/main')
+              .replace('export function main() {', 'export function main() {} {'),
+        },
 
         middleware: function(app, express) {
             var path = require('path');
