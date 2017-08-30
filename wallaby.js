@@ -4,6 +4,7 @@ var path = require('path');
 var compilerOptions = Object.assign(require('./tsconfig.json').compilerOptions);
 
 module.exports = function(wallaby) {
+    console.log(wallaby);
 
     var webpackPostprocessor = wallabyWebpack({
         entryPatterns: [
@@ -49,7 +50,7 @@ module.exports = function(wallaby) {
         ],
 
         tests: [
-            { pattern: 'src/**/*spec.ts', load: false }
+            { pattern: 'test/**/*spec.ts', load: true }
         ],
 
         testFramework: 'jasmine',

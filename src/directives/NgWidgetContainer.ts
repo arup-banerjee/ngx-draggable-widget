@@ -1092,9 +1092,9 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _addToGrid(item: NgWidget): void {
-		if( (this.isDragging || this.isResizing) && this.allowOverlap) {
-			return;
-		}
+		// if( (this.isDragging || this.isResizing) && this.allowOverlap) {
+		// 	return;
+		// }
 		let pos: INgWidgetPosition = item.getGridPosition();
 		const dims: INgWidgetSize = item.getSize();
 

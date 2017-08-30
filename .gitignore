@@ -15,7 +15,7 @@ demo-dashboard/node-modules/
 node_modules/
 bower_components/
 coverage/
-test/*.js
+test/*.js!karma.conf.js
 test/*.js.map
 test/*.d.ts
 .idea/

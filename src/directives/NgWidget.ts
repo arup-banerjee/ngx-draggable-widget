@@ -310,22 +310,18 @@ export class NgWidget implements OnInit, OnDestroy {
 		this._payload = config.payload;
 		this._currentPosition.col = config.col ? config.col : NgWidget.CONST_DEFAULT_CONFIG.col;
         this._currentPosition.row = config.row ? config.row : NgWidget.CONST_DEFAULT_CONFIG.row;
-        //this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
-		//this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
         console.log('(this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null', (this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null);
         console.log('(this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null', (this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null);
         if ((this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null) {
             this._size.x = this._ngWidgetContainer.widget_width_factor * config.unitx;
             console.log(this._size.x, this._ngWidgetContainer.widget_width_factor * config.unitx);
-        }
-        else {
+        } else {
             this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
         }
 
         if ((this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null) {
             this._size.y = this._ngWidgetContainer.widget_height_factor * config.unity;
-        }
-        else {
+        } else {
             this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
         }
 
