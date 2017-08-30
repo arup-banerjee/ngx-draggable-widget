@@ -28,3 +28,5 @@ temp/
 /.vs/slnx.sqlite
 /.vs/ProjectSettings.json
 /.vs/VSWorkspaceState.json
+ngx-draggable-widget.njsproj
+ngx-draggable-widget.sln

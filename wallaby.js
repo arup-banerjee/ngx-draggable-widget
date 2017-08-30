@@ -1,13 +1,9 @@
 var wallabyWebpack = require('wallaby-webpack');
 var path = require('path');
 
-//var compilerOptions = Object.assign(
-//    require('./tsconfig.json').compilerOptions,
-//    require('./src/tsconfig.spec.json').compilerOptions);
+var compilerOptions = Object.assign(require('./tsconfig.json').compilerOptions);
 
-var compilerOptions = Object.assign( require('./tsconfig.json').compilerOptions);
-
-module.exports = function (wallaby) {
+module.exports = function(wallaby) {
 
     var webpackPostprocessor = wallabyWebpack({
         entryPatterns: [
@@ -58,11 +54,8 @@ module.exports = function (wallaby) {
 
         testFramework: 'jasmine',
 
-        compilers: {
-            '**/*.ts': wallaby.compilers.typeScript(compilerOptions)
-        },
 
-        middleware: function (app, express) {
+        middleware: function(app, express) {
             var path = require('path');
             app.use('/favicon.ico', express.static(path.join(__dirname, 'src/favicon.ico')));
             app.use('/assets', express.static(path.join(__dirname, 'src/assets')));
@@ -74,7 +67,7 @@ module.exports = function (wallaby) {
 
         postprocessor: webpackPostprocessor,
 
-        setup: function () {
+        setup: function() {
             window.__moduleBundler.loadTests();
         },
 

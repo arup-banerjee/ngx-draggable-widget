@@ -4,12 +4,6 @@
 [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE) 
 [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues) 
 [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#) 
-[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget) 
-[![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget) 
-[![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget) 
-[![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE) 
-[![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues) 
-[![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)
 
 # Ngx Draggable Widget
 Ngx Draggable Widget is a **_drag & drop , resize , cascade , overlap_** capable __"[ngWidgetContainer]"__ and __"[ngWidget]"__ structural directive component library for [Angular 4](http://angular.io).
@@ -94,7 +88,8 @@ The defaults for the widget item are:
     'minRows': 0,           //  The minimum number of rows for a particular widget. This value will only override the value from the widget container if larger
     'minWidth': 0,          //  The minimum width of a particular widget. This value will override the value from the widget container, as well as the minimum columns if the resulting size is larger
     'minHeight': 0,         //  The minimum height of a particular widget. This value will override the value from the widget container, as well as the minimum rows if the resulting size is larger
-    'unitx': 0,         //  The unitx defines the initial logical width of the widget. The actual width in pixels is the multiple of this logical unit with the corresponding widget_width_factor
+    'unitx': 0,             //  The unitx defines the initial logical width of the widget. The actual width in pixels is the multiple of this logical unit with the corresponding widget_width_factor
+    'unity': 0,             //  The unity defines the initial logical height of the widget. The actual height in pixels is the multiple of this logical unit with the corresponding widget_height_factor
 }
 ```
 
@@ -150,7 +145,7 @@ interface NgWidgetEvent {
 #### Styling
 ------------
 
-There are three elements that can be styled with ngx-draggable-widget, the container itself `.container`, the items `.widget` and the placeholder `.placeholder`. The demo includes some basic styling in NgWidgetContainer.css which you can include in your app's `styleUrls` property. It also includes some @media queries styles to handle responsiveness on smaller screens. This simple force the boxes to full width and puts them inline in their original order. This is optional functionality and does not need to be included. In order for correct functionality, the required styles are added by the classes themselves at run-time:
+There are three elements that can be styled with ngx-draggable-widget, the container itself `.widget-container`, the items `.widget` and the placeholder `.widget-placeholder`. The demo includes some basic styling in NgWidgetContainer.css which you can include in your app's `styleUrls` property. It also includes some @media queries styles to handle responsiveness on smaller screens. This simple force the boxes to full width and puts them inline in their original order. This is optional functionality and does not need to be included. In order for correct functionality, the required styles are added by the classes themselves at run-time:
 
 ```css
 .widget-container {
@@ -188,7 +183,7 @@ The **`NgDraggableContainer`** and **`NgWidget`** can be configured by binding d
 </div>
 ```
 
-In order to include the relevant files, you will need to import the `NgGridModule` to your app and add them to the `@NgModule` imports. This can be achieved by adding:
+In order to include the relevant files, you will need to import the `NgDraggableWidgetModule` to your app and add them to the `@NgModule` imports. This can be achieved by adding:
 
 ```typescript
 import { NgDraggableWidgetModule } from 'ngx-draggable-widget';
