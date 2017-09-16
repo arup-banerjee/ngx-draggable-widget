@@ -342,23 +342,23 @@ export function main() {
 			expect(ngWidget.getPosition().top).toBe(null);
 		});
 
-		it("should get the grid position", () => {
+		it('should get the grid position', () => {
 			var ngWidget: NgWidget = new NgWidget(null, null, null);
 			(<any>ngWidget)._col = 100;
 			(<any>ngWidget)._row = 200;
-			expect(ngWidget.getGridPosition().col).toBe(100);
-			expect(ngWidget.getGridPosition().row).toBe(200);
+			expect(ngWidget.getWidgetPosition().col).toBe(100);
+			expect(ngWidget.getWidgetPosition().row).toBe(200);
 			(<any>ngWidget)._col = null;
 			(<any>ngWidget)._row = null;
-			expect(ngWidget.getGridPosition().col).toBe(null);
-			expect(ngWidget.getGridPosition().row).toBe(null);
+			expect(ngWidget.getWidgetPosition().col).toBe(null);
+			expect(ngWidget.getWidgetPosition().row).toBe(null);
 		});
 
-		it("should set the config", () => {
-			var ngWidget: NgWidget = new NgWidget(null, null, null);
+		it('should set the config', () => {
+			const ngWidget: NgWidget = new NgWidget(null, null, null, null, null);
 			spyOn(ngWidget, '_recalculatePosition');
 			spyOn(ngWidget, '_recalculateDimensions');
-			var config: any = {
+			const config: any = {
 				col: 1,
 				row: 2,
 				sizex: 3,
@@ -377,11 +377,11 @@ export function main() {
 			expect((<any>ngWidget)._recalculateDimensions).toHaveBeenCalled();
 		});
 
-		it("should set the size", () => {
-			var ngWidget: NgWidget = new NgWidget(null, null, null);
+		it('should set the size', () => {
+			const ngWidget: NgWidget = new NgWidget(null, null, null, null, null);
 			spyOn(ngWidget, '_recalculateDimensions');
-			var newSizeX = 31;
-			var newSizeY = 27;
+			const newSizeX = 31;
+			const newSizeY = 27;
 			ngWidget.setSize(newSizeX, newSizeY);
 			expect((<any>ngWidget)._sizex).toBe(newSizeX);
 			expect((<any>ngWidget)._sizey).toBe(newSizeY);

@@ -18,71 +18,9 @@ import { NgWidgetPlaceholder } from '../components/NgWidgetPlaceholder';
 		'(window:resize)': 'resizeEventHandler($event)',
 		'(document:mousemove)': 'mouseMoveEventHandler($event)',
 		'(document:mouseup)': 'mouseUpEventHandler($event)'
-	},
+	}
 })
 export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
-	// 	event Emitters
-	@Output() public onDragStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onDrag: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onDragStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onResizeStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onResize: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onResizeStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
-	@Output() public onItemChange: EventEmitter<Array<INgWidgetEvent>> = new EventEmitter<Array<INgWidgetEvent>>();
-
-	// 	public variables
-	public colWidth: number = 250;
-	public rowHeight: number = 250;
-	public minCols: number = 1;
-	public minRows: number = 1;
-	public marginTop: number = 10;
-	public marginRight: number = 10;
-	public marginBottom: number = 10;
-	public marginLeft: number = 10;
-	public isDragging: boolean = false;
-	public isResizing: boolean = false;
-	public autoStyle: boolean = true;
-	public resizeEnable: boolean = true;
-	public dragEnable: boolean = true;
-	public cascade: string = 'up';
-	public minWidth: number = 100;
-	public minHeight: number = 100;
-	public zIndex: number = 1;
-    public allowOverlap: boolean = false;
-    public widget_width_factor: number = 0;
-    public widget_height_factor: number = 0;
-
-	// 	private variables
-	private _items: Array<NgWidget> = [];
-	private _draggingItem: NgWidget = null;
-	private _resizingItem: NgWidget = null;
-	private _resizeDirection: string = null;
-	private _itemGrid: { [key: number]: { [key: number]: NgWidget } } = {};//{ 1: { 1: null } };
-	private _containerWidth: number;
-	private _containerHeight: number;
-	private _maxCols: number = 0;
-	private _maxRows: number = 0;
-	private _visibleCols: number = 0;
-	private _visibleRows: number = 0;
-	private _setWidth: number = 250;
-	private _setHeight: number = 250;
-	private _posOffset: INgWidgetContainerRawPosition = null;
-	private _adding: boolean = false;
-	private _placeholderRef: ComponentRef<NgWidgetPlaceholder> = null;
-	private _fixToGrid: boolean = false;
-    private _autoResize: boolean = false;
-    private _differ: KeyValueDiffer<String,any>;
-	private _destroyed: boolean = false;
-	private _maintainRatio: boolean = false;
-	private _aspectRatio: number;
-	private _preferNew: boolean = false;
-	private _zoomOnDrag: boolean = false;
-	private _limitToScreen: boolean = false;
-	private _curMaxRow: number = 0;
-	private _curMaxCol: number = 0;
-	private _dragReady: boolean = false;
-	private _resizeReady: boolean = false;
-
 	// 	default config
 	private static CONST_DEFAULT_CONFIG: INgWidgetContainerConfig = {
 		margins: [10],
@@ -94,7 +32,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		visible_rows: 0,
 		col_width: 250,
 		row_height: 250,
-		cascade: 'up',
+		cascade: 'left',
 		min_width: 100,
 		min_height: 100,
 		fix_to_grid: false,
@@ -103,10 +41,74 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		maintain_ratio: false,
 		prefer_new: false,
 		zoom_on_drag: false,
-        allow_overlap: false,
-        widget_width_factor: 0,
-        widget_height_factor: 0
+		allow_overlap: false,
+		widget_width_factor: 0,
+		widget_height_factor: 0
 	};
+
+	// 	event Emitters
+	@Output() public onDragStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onDrag: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onDragStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResizeStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResize: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResizeStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onItemChange: EventEmitter<Array<INgWidgetEvent>> = new EventEmitter<Array<INgWidgetEvent>>();
+
+	// 	public variables
+	public colWidth = 250;
+	public rowHeight = 250;
+	public minCols = 1;
+	public minRows = 1;
+	public marginTop = 10;
+	public marginRight = 10;
+	public marginBottom = 10;
+	public marginLeft = 10;
+	public isDragging = false;
+	public isResizing = false;
+	public autoStyle = true;
+	public resizeEnable = true;
+	public dragEnable = true;
+	public cascade = 'up';
+	public minWidth = 100;
+	public minHeight = 100;
+	public zIndex = 1;
+	public allowOverlap = false;
+	public widget_width_factor = 0;
+	public widget_height_factor = 0;
+
+	// 	private variables
+	private _items: Array<NgWidget> = [];
+	private _draggingItem: NgWidget = null;
+	private _resizingItem: NgWidget = null;
+	private _resizeDirection: string = null;
+	private _itemGrid: { [key: number]: { [key: number]: NgWidget } } = {}; // { 1: { 1: null } };
+	private _containerWidth: number;
+	private _containerHeight: number;
+	private _maxCols = 0;
+	private _maxRows = 0;
+	private _visibleCols = 0;
+	private _visibleRows = 0;
+	private _setWidth = 250;
+	private _setHeight = 250;
+	private _posOffset: INgWidgetContainerRawPosition = null;
+	private _adding = false;
+	private _placeholderRef: ComponentRef<NgWidgetPlaceholder> = null;
+	private _fixToGrid = false;
+	private _autoResize = false;
+	private _differ: KeyValueDiffer<String,any>;
+	private _destroyed = false;
+	private _maintainRatio = false;
+	private _aspectRatio: number;
+	private _preferNew = false;
+	private _zoomOnDrag = false;
+	private _limitToScreen = false;
+	private _curMaxRow = 0;
+	private _curMaxCol = 0;
+	private _dragReady = false;
+	private _resizeReady = false;
+
+
 	private _config = NgWidgetContainer.CONST_DEFAULT_CONFIG;
 
 	// 	[ng-widget-container] attribute handler
@@ -128,8 +130,9 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	// 	public methods
 	public ngOnInit(): void {
 		this._renderer.setElementClass(this._ngEl.nativeElement, 'widget-container', true);
-		// tslint:disable-next-line:curly
-		if (this.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'relative');
+		if (this.autoStyle) {
+			this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'relative');
+		}
 		this.setConfig(this._config);
 	}
 
@@ -144,93 +147,95 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	public setConfig(config: INgWidgetContainerConfig): void {
 		this._config = config;
 
-		var maxColRowChanged = false;
-		for (var x in config) {
-			var val = config[x];
-			var intVal = !val ? 0 : parseInt(val);
+		let maxColRowChanged = false;
+		for (const x in config) {
+			if (config.hasOwnProperty(x)) {
+			const val = config[x];
+			const intVal = !val ? 0 : parseInt(val, 10);
 
-			switch (x) {
-				case 'margins':
-					this.setMargins(val);
-					break;
-				case 'col_width':
-					this.colWidth = Math.max(intVal, 1);
-					break;
-				case 'row_height':
-					this.rowHeight = Math.max(intVal, 1);
-					break;
-				case 'auto_style':
-					this.autoStyle = val ? true : false;
-					break;
-				case 'auto_resize':
-					this._autoResize = val ? true : false;
-					break;
-				case 'draggable':
-					this.dragEnable = val ? true : false;
-					break;
-				case 'resizable':
-					this.resizeEnable = val ? true : false;
-					break;
-				case 'max_rows':
-					maxColRowChanged = maxColRowChanged || this._maxRows !== intVal;
-					this._maxRows = intVal < 0 ? 0 : intVal;
-					break;
-				case 'max_cols':
-					maxColRowChanged = maxColRowChanged || this._maxCols !== intVal;
-					this._maxCols = intVal < 0 ? 0 : intVal;
-					break;
-				case 'visible_rows':
-					this._visibleRows = Math.max(intVal, 0);
-					break;
-				case 'visible_cols':
-					this._visibleCols = Math.max(intVal, 0);
-					break;
-				case 'min_rows':
-					this.minRows = Math.max(intVal, 1);
-					break;
-				case 'min_cols':
-					this.minCols = Math.max(intVal, 1);
-					break;
-				case 'min_height':
-					this.minHeight = Math.max(intVal, 1);
-					break;
-				case 'min_width':
-					this.minWidth = Math.max(intVal, 1);
-					break;
-				case 'zoom_on_drag':
-					this._zoomOnDrag = val ? true : false;
-					break;
-				case 'cascade':
-					if (this.cascade !== val) {
-						this.cascade = val;
-						this._cascadeGrid();
-					}
-					break;
-				case 'fix_to_grid':
-					this._fixToGrid = val ? true : false;
-					break;
-				case 'maintain_ratio':
-					this._maintainRatio = val ? true : false;
-					break;
-				case 'prefer_new':
-					this._preferNew = val ? true : false;
-					break;
-				case 'limit_to_screen':
-					this._limitToScreen = !this._autoResize && !!val;
+				switch (x) {
+					case 'margins':
+						this.setMargins(val);
+						break;
+					case 'col_width':
+						this.colWidth = Math.max(intVal, 1);
+						break;
+					case 'row_height':
+						this.rowHeight = Math.max(intVal, 1);
+						break;
+					case 'auto_style':
+						this.autoStyle = val ? true : false;
+						break;
+					case 'auto_resize':
+						this._autoResize = val ? true : false;
+						break;
+					case 'draggable':
+						this.dragEnable = val ? true : false;
+						break;
+					case 'resizable':
+						this.resizeEnable = val ? true : false;
+						break;
+					case 'max_rows':
+						maxColRowChanged = maxColRowChanged || this._maxRows !== intVal;
+						this._maxRows = intVal < 0 ? 0 : intVal;
+						break;
+					case 'max_cols':
+						maxColRowChanged = maxColRowChanged || this._maxCols !== intVal;
+						this._maxCols = intVal < 0 ? 0 : intVal;
+						break;
+					case 'visible_rows':
+						this._visibleRows = Math.max(intVal, 0);
+						break;
+					case 'visible_cols':
+						this._visibleCols = Math.max(intVal, 0);
+						break;
+					case 'min_rows':
+						this.minRows = Math.max(intVal, 1);
+						break;
+					case 'min_cols':
+						this.minCols = Math.max(intVal, 1);
+						break;
+					case 'min_height':
+						this.minHeight = Math.max(intVal, 1);
+						break;
+					case 'min_width':
+						this.minWidth = Math.max(intVal, 1);
+						break;
+					case 'zoom_on_drag':
+						this._zoomOnDrag = val ? true : false;
+						break;
+					case 'cascade':
+						if (this.cascade !== val) {
+							this.cascade = val;
+							this._cascadeGrid();
+						}
+						break;
+					case 'fix_to_grid':
+						this._fixToGrid = val ? true : false;
+						break;
+					case 'maintain_ratio':
+						this._maintainRatio = val ? true : false;
+						break;
+					case 'prefer_new':
+						this._preferNew = val ? true : false;
+						break;
+					case 'limit_to_screen':
+						this._limitToScreen = !this._autoResize && !!val;
 
-					if (this._limitToScreen) {
-						this._maxCols = this._getContainerColumns();
-					}
-					break;
-				case 'allow_overlap':
-					this.allowOverlap = val ? true : false;
-					break;
-                case 'widget_width_factor':
-                    this.widget_width_factor = Math.max(intVal, 0);
-                    break;
-                case 'widget_height_factor':
-                    this.widget_height_factor = Math.max(intVal, 0);
-                    break;
+						if (this._limitToScreen) {
+							this._maxCols = this._getContainerColumns();
+						}
+						break;
+					case 'allow_overlap':
+						this.allowOverlap = val ? true : false;
+						break;
+					case 'widget_width_factor':
+						this.widget_width_factor = Math.max(intVal, 0);
+						break;
+					case 'widget_height_factor':
+						this.widget_height_factor = Math.max(intVal, 0);
+						break;
+				}
 			}
 		}
 
@@ -243,7 +248,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		}
 
 		if (maxColRowChanged) {
-			if (this._maxCols > 0 && this._maxRows > 0) {	//	Can't have both, prioritise on cascade
+			if (this._maxCols > 0 && this._maxRows > 0) {	// 	Can't have both, prioritise on cascade
 				switch (this.cascade) {
 					case 'left':
 					case 'right':
@@ -263,10 +268,9 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		this._calculateColWidth();
 		this._calculateRowHeight();
 
-		var maxWidth = this._maxCols * this.colWidth;
-		var maxHeight = this._maxRows * this.rowHeight;
+		const maxWidth = this._maxCols * this.colWidth;
+		const maxHeight = this._maxRows * this.rowHeight;
 
-		// tslint:disable:curly
 		if (maxWidth > 0 && this.minWidth > maxWidth) this.minWidth = 0.75 * this.colWidth;
 		if (maxHeight > 0 && this.minHeight > maxHeight) this.minHeight = 0.75 * this.rowHeight;
 
@@ -278,12 +282,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 		this._updateRatio();
 
-		for (let item of this._items) {
+		for (const item of this._items) {
 			this._removeFromGrid(item);
 			item.setCascadeMode(this.cascade);
 		}
 
-		for (let item of this._items) {
+		for (const item of this._items) {
 			item.recalculateSelf();
 			this._addToGrid(item);
 		}
@@ -294,7 +298,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	public getItemPosition(index: number): INgWidgetPosition {
-		return this._items[index].getGridPosition();
+		return this._items[index].getWidgetPosition();
 	}
 
 	public getItemSize(index: number): INgWidgetSize {
@@ -303,9 +307,10 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 	public ngDoCheck(): boolean {
 		if (this._differ != null) {
-			var changes = this._differ.diff(this._config);
+			const changes = this._differ.diff(this._config);
 
 			if (changes != null) {
+				console.log('ngDoCheck -> NgWidgetContainer');
 				this._applyChanges(changes);
 
 				return true;
@@ -316,12 +321,11 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	public setMargins(margins: Array<string>): void {
-		// tslint:disable:radix
-		this.marginTop = Math.max(parseInt(margins[0]), 0);
-		this.marginRight = margins.length >= 2 ? Math.max(parseInt(margins[1]), 0) : this.marginTop;
-		this.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2]), 0) : this.marginTop;
-		this.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2]), 0) : this.marginTop;
-		this.marginLeft = margins.length >= 4 ? Math.max(parseInt(margins[3]), 0) : this.marginRight;
+		this.marginTop = Math.max(parseInt(margins[0], 10), 0);
+		this.marginRight = margins.length >= 2 ? Math.max(parseInt(margins[1], 10), 0) : this.marginTop;
+		this.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2], 10), 0) : this.marginTop;
+		this.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2], 10), 0) : this.marginTop;
+		this.marginLeft = margins.length >= 4 ? Math.max(parseInt(margins[3], 10), 0) : this.marginRight;
 	}
 
 	public enableDrag(): void {
@@ -344,7 +348,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		ngItem.setCascadeMode(this.cascade);
 
 		if (!this._preferNew) {
-			var newPos = this._fixGridPosition(ngItem.getGridPosition(), ngItem.getSize());
+			const newPos = this._fixGridPosition(ngItem.getWidgetPosition(), ngItem.getSize());
 			ngItem.setGridPosition(newPos);
 		}
 
@@ -362,14 +366,14 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	public removeItem(ngItem: NgWidget): void {
 		this._removeFromGrid(ngItem);
 
-		for (let x: number = 0; x < this._items.length; x++) {
+		for (let x = 0; x < this._items.length; x++) {
 			if (this._items[x] === ngItem) {
 				this._items.splice(x, 1);
 			}
 		}
 
 		if (this._destroyed) return;
-		if(this.allowOverlap) return;
+		if (this.allowOverlap) return;
 
 		this._cascadeGrid();
 		this._updateSize();
@@ -377,12 +381,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		this._emitOnItemChange();
 	}
 
-	public updateItem(ngItem: NgWidget): void {
-		this._removeFromGrid(ngItem);
-		this._addToGrid(ngItem);
+	public updateItem(ngWidget: NgWidget): void {
+		this._removeFromGrid(ngWidget);
+		this._addToGrid(ngWidget);
 		this._cascadeGrid();
 		this._updateSize();
-		ngItem.onCascadeEvent();
+		ngWidget.onCascadeEvent();
 	}
 
 	public triggerCascade(): void {
@@ -412,14 +416,14 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	public mouseDownEventHandler(e: MouseEvent): void {
-		var mousePos = this._getMousePosition(e);
-		var item = this._getItemFromPosition(mousePos);
+		const mousePos = this._getMousePosition(e);
+		const widget = this._getItemFromPosition(mousePos);
 
-		if (item != null) {
-			if (this.resizeEnable && item.canResize(e)) {
+		if (widget != null) {
+			if (this.resizeEnable && widget.canResize(e)) {
 				this._resizeReady = true;
 				e.preventDefault();
-			} else if (this.dragEnable && item.canDrag(e)) {
+			} else if (this.dragEnable && widget.canDrag(e)) {
 				this._dragReady = true;
 				e.preventDefault();
 			}
@@ -453,8 +457,8 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		} else if (this.isResizing) {
 			this._resize(e);
 		} else {
-			var mousePos = this._getMousePosition(e);
-			var item = this._getItemFromPosition(mousePos);
+			const mousePos = this._getMousePosition(e);
+			const item = this._getItemFromPosition(mousePos);
 
 			if (item) {
 				item.onMouseMove(e);
@@ -462,12 +466,11 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		}
 	}
 
-	// tslint:disable:comment-format
-	//	Private methods
+	// 	Private methods
 	private updatePositionsAfterMaxChange(): void {
-		for (let item of this._items) {
-			var pos = item.getGridPosition();
-			var dims = item.getSize();
+		for (const item of this._items) {
+			const pos = item.getWidgetPosition();
+			const dims = item.getSize();
 
 			if (!this._hasGridCollision(pos, dims) && this._isWithinBounds(pos, dims) && dims.x <= this._maxCols && dims.y <= this._maxRows) {
 				continue;
@@ -484,7 +487,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 			}
 
 			if (this._hasGridCollision(pos, dims) || !this._isWithinBounds(pos, dims)) {
-				var newPosition = this._fixGridPosition(pos, dims);
+				const newPosition = this._fixGridPosition(pos, dims);
 				item.setGridPosition(newPosition);
 			}
 
@@ -495,13 +498,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	private _calculateColWidth(): void {
 		if (this._autoResize) {
 			if (this._maxCols > 0 || this._visibleCols > 0) {
-				var maxCols = this._maxCols > 0 ? this._maxCols : this._visibleCols;
-				var maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
+				const maxCols = this._maxCols > 0 ? this._maxCols : this._visibleCols;
+				const maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
 
-				var colWidth: number = Math.floor(maxWidth / maxCols);
+				let colWidth: number = Math.floor(maxWidth / maxCols);
 				colWidth -= (this.marginLeft + this.marginRight);
 				if (colWidth > 0) this.colWidth = colWidth;
-
 			}
 		}
 
@@ -513,13 +515,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	private _calculateRowHeight(): void {
 		if (this._autoResize) {
 			if (this._maxRows > 0 || this._visibleRows > 0) {
-				var maxRows = this._maxRows > 0 ? this._maxRows : this._visibleRows;
-				var maxHeight: number = window.innerHeight - this.marginTop - this.marginBottom;
+				const maxRows = this._maxRows > 0 ? this._maxRows : this._visibleRows;
+				const maxHeight: number = window.innerHeight - this.marginTop - this.marginBottom;
 
-				var rowHeight: number = Math.max(Math.floor(maxHeight / maxRows), this.minHeight);
+				let rowHeight: number = Math.max(Math.floor(maxHeight / maxRows), this.minHeight);
 				rowHeight -= (this.marginTop + this.marginBottom);
 				if (rowHeight > 0) this.rowHeight = rowHeight;
-
 			}
 		}
 
@@ -534,7 +535,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 				this.rowHeight = this.colWidth / this._aspectRatio;
 			} else if (this._maxRows > 0 && this._visibleCols <= 0) {
 				this.colWidth = this._aspectRatio * this.rowHeight;
-			} else if (this._maxCols == 0 && this._maxRows == 0) {
+			} else if (this._maxCols === 0 && this._maxRows === 0) {
 				if (this._visibleCols > 0) {
 					this.rowHeight = this.colWidth / this._aspectRatio;
 				} else if (this._visibleRows > 0) {
@@ -554,31 +555,33 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 	private _resizeStart(e: any): void {
 		if (this.resizeEnable) {
-            var mousePos = this._getMousePosition(e);
-            var item = this._getItemFromPosition(mousePos);
+			const mousePos = this._getMousePosition(e);
+			const item = this._getItemFromPosition(mousePos);
 
-            if (item) {
-                item.startMoving();
-                this._resizingItem = item;
-                this._resizeDirection = item.canResize(e);
-                this._removeFromGrid(item);
-                this._createPlaceholder(item);
-                this.isResizing = true;
-                this._resizeReady = false;
-                this.onResizeStart.emit(item);
-                item.onResizeStartEvent();
-            }
-        }
+			if (item) {
+				item.startMoving();
+				this._resizingItem = item;
+				this._resizeDirection = item.canResize(e);
+				this._removeFromGrid(item);
+				this._createPlaceholder(item);
+				this.isResizing = true;
+				this._resizeReady = false;
+				this.onResizeStart.emit(item);
+				item.onResizeStartEvent();
+			}
+		}
 	}
 
 	private _dragStart(e: any): void {
 		if (this.dragEnable) {
-			var mousePos = this._getMousePosition(e);
-			var item = this._getItemFromPosition(mousePos);
+			const mousePos = this._getMousePosition(e);
+			const item = this._getItemFromPosition(mousePos);
 
 			if (item) {
-				var itemPos = item.getPosition();
-				var pOffset = { 'left': (mousePos.left - itemPos.left), 'top': (mousePos.top - itemPos.top) }
+				const itemPos = item.getPosition();
+				const pOffset = { 'left': (mousePos.left - itemPos.left), 'top': (mousePos.top - itemPos.top) };
+				item.setWidgetDragStartPosition(item.getWidgetPosition());
+				console.log('_dragStart -> dragStartPosition', item.getWidgetDragStartPosition());
 
 				item.startMoving();
 				this._draggingItem = item;
@@ -608,6 +611,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 	private _drag(e: any): void {
 		if (this.isDragging) {
+			console.log('_drag');
 			if (window.getSelection) {
 				if (window.getSelection().empty) {
 					window.getSelection().empty();
@@ -618,13 +622,13 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 				(<any>document).selection.empty();
 			}
 
-			var mousePos = this._getMousePosition(e);
-			var newL = (mousePos.left - this._posOffset.left);
-			var newT = (mousePos.top - this._posOffset.top);
+			const mousePos = this._getMousePosition(e);
+			const newL = (mousePos.left - this._posOffset.left);
+			const newT = (mousePos.top - this._posOffset.top);
 
-			var itemPos = this._draggingItem.getGridPosition();
-			var gridPos = this._calculateGridPosition(newL, newT);
-			var dims = this._draggingItem.getSize();
+			const itemPos = this._draggingItem.getWidgetPosition();
+			let gridPos = this._calculateGridPosition(newL, newT);
+			const dims = this._draggingItem.getSize();
 
 			gridPos = this._fixPosToBoundsX(gridPos, dims);
 
@@ -633,11 +637,17 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 			}
 
 			if (gridPos.col !== itemPos.col || gridPos.row !== itemPos.row) {
+			// if (Math.abs(gridPos.col - itemPos.col) > 10 || Math.abs(gridPos.row - itemPos.row) > 10) {
+				console.log('_drag', gridPos, itemPos);
 				this._draggingItem.setGridPosition(gridPos, this._fixToGrid);
 				this._placeholderRef.instance.setGridPosition(gridPos);
 
 				if (['up', 'down', 'left', 'right'].indexOf(this.cascade) >= 0) {
-					this._fixGridCollisions(gridPos, dims);
+					if (Math.abs(gridPos.col - itemPos.col) > 10 || Math.abs(gridPos.row - itemPos.row) > 10) {
+						console.log('_drag fixGridCollision', gridPos, dims);
+						this._fixGridCollisions(gridPos, dims);
+					}
+					console.log('_drag cascade', gridPos, dims);
 					this._cascadeGrid(gridPos, dims);
 				}
 			}
@@ -663,30 +673,24 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 				(<any>document).selection.empty();
 			}
 
-			var mousePos = this._getMousePosition(e);
-			var itemPos = this._resizingItem.getPosition();
-			var itemDims = this._resizingItem.getDimensions();
-			var newW = this._resizeDirection === 'height' ? itemDims.width : (mousePos.left - itemPos.left + 10);
-			var newH = this._resizeDirection === 'width' ? itemDims.height : (mousePos.top - itemPos.top + 10);
+			const mousePos = this._getMousePosition(e);
+			const itemPos = this._resizingItem.getPosition();
+			const itemDims = this._resizingItem.getDimensions();
+			let newW = this._resizeDirection === 'height' ? itemDims.width : (mousePos.left - itemPos.left + 10);
+			let newH = this._resizeDirection === 'width' ? itemDims.height : (mousePos.top - itemPos.top + 10);
 
-			if (newW < this.minWidth)
-				newW = this.minWidth;
-			if (newH < this.minHeight)
-				newH = this.minHeight;
-			if (newW < this._resizingItem.minWidth)
-				newW = this._resizingItem.minWidth;
-			if (newH < this._resizingItem.minHeight)
-				newH = this._resizingItem.minHeight;
+			if (newW < this.minWidth) newW = this.minWidth;
+			if (newH < this.minHeight) newH = this.minHeight;
+			if (newW < this._resizingItem.minWidth) newW = this._resizingItem.minWidth;
+			if (newH < this._resizingItem.minHeight) newH = this._resizingItem.minHeight;
 
-			var calcSize = this._calculateGridSize(newW, newH);
-			var itemSize = this._resizingItem.getSize();
-			var iGridPos = this._resizingItem.getGridPosition();
+			let calcSize = this._calculateGridSize(newW, newH);
+			const itemSize = this._resizingItem.getSize();
+			const iGridPos = this._resizingItem.getWidgetPosition();
 
-			if (!this._isWithinBoundsX(iGridPos, calcSize))
-				calcSize = this._fixSizeToBoundsX(iGridPos, calcSize);
+			if (!this._isWithinBoundsX(iGridPos, calcSize)) calcSize = this._fixSizeToBoundsX(iGridPos, calcSize);
 
-			if (!this._isWithinBoundsY(iGridPos, calcSize))
-				calcSize = this._fixSizeToBoundsY(iGridPos, calcSize);
+			if (!this._isWithinBoundsY(iGridPos, calcSize)) calcSize = this._fixSizeToBoundsY(iGridPos, calcSize);
 
 			calcSize = this._resizingItem.fixResize(calcSize);
 
@@ -700,13 +704,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 				}
 			}
 
-			if (!this._fixToGrid)
-				this._resizingItem.setDimensions(newW, newH);
+			if (!this._fixToGrid) this._resizingItem.setDimensions(newW, newH);
 
-			var bigGrid = this._maxGridSize(itemPos.left + newW + (2 * e.movementX), itemPos.top + newH + (2 * e.movementY));
+			const bigGrid = this._maxGridSize(itemPos.left + newW + (2 * e.movementX), itemPos.top + newH + (2 * e.movementY));
 
-			if (this._resizeDirection == 'height') bigGrid.x = iGridPos.col + itemSize.x;
-			if (this._resizeDirection == 'width') bigGrid.y = iGridPos.row + itemSize.y;
+			if (this._resizeDirection === 'height') bigGrid.x = iGridPos.col + itemSize.x;
+			if (this._resizeDirection === 'width') bigGrid.y = iGridPos.row + itemSize.y;
 
 			this.onResize.emit(this._resizingItem);
 			this._resizingItem.onResizeEvent();
@@ -717,9 +720,22 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		if (this.isDragging) {
 			this.isDragging = false;
 
-			var itemPos = this._draggingItem.getGridPosition();
-
+			const itemPos = this._draggingItem.getWidgetPosition();
+			const itemDragStartPos = this._draggingItem.getWidgetDragStartPosition();
+			console.log('_dragStop itemPos, dragStartPos', itemPos, itemDragStartPos);
 			this._draggingItem.setGridPosition(itemPos);
+			// if (this.allowOverlap) {
+			// 	this._draggingItem.setGridPosition(itemPos);
+			// } else {
+			// 	if (Math.abs(itemPos.row - itemDragStartPos.row) > 4 ) {
+			// 		console.log('_dragStop setGrid itemPos');
+			// 		this._draggingItem.setGridPosition(itemPos);
+			// 	} else {
+			// 		console.log('_dragStop setGrid itemDragStartPos');
+			// 		const newPos: INgWidgetPosition = { col: itemPos.col, row: itemDragStartPos.row };
+			// 		this._draggingItem.setGridPosition(newPos);
+			// 	}
+			// }
 			this._addToGrid(this._draggingItem);
 
 			this._cascadeGrid();
@@ -745,7 +761,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		if (this.isResizing) {
 			this.isResizing = false;
 
-			var itemDims = this._resizingItem.getSize();
+			const itemDims = this._resizingItem.getSize();
 
 			this._resizingItem.setSize(itemDims);
 			this._addToGrid(this._resizingItem);
@@ -766,8 +782,8 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _maxGridSize(w: number, h: number): INgWidgetSize {
-		var sizex = Math.ceil(w / (this.colWidth + this.marginLeft + this.marginRight));
-		var sizey = Math.ceil(h / (this.rowHeight + this.marginTop + this.marginBottom));
+		const sizex = Math.ceil(w / (this.colWidth + this.marginLeft + this.marginRight));
+		const sizey = Math.ceil(h / (this.rowHeight + this.marginTop + this.marginBottom));
 		return { 'x': sizex, 'y': sizey };
 	}
 
@@ -775,8 +791,8 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		width += this.marginLeft + this.marginRight;
 		height += this.marginTop + this.marginBottom;
 
-		var sizex = Math.max(this.minCols, Math.round(width / (this.colWidth + this.marginLeft + this.marginRight)));
-		var sizey = Math.max(this.minRows, Math.round(height / (this.rowHeight + this.marginTop + this.marginBottom)));
+		let sizex = Math.max(this.minCols, Math.round(width / (this.colWidth + this.marginLeft + this.marginRight)));
+		let sizey = Math.max(this.minRows, Math.round(height / (this.rowHeight + this.marginTop + this.marginBottom)));
 
 		if (!this._isWithinBoundsX({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizex = this._maxCols;
 		if (!this._isWithinBoundsY({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizey = this._maxRows;
@@ -785,8 +801,8 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _calculateGridPosition(left: number, top: number): INgWidgetPosition {
-		var col = Math.max(1, Math.round(left / (this.colWidth + this.marginLeft + this.marginRight)) + 1);
-		var row = Math.max(1, Math.round(top / (this.rowHeight + this.marginTop + this.marginBottom)) + 1);
+		let col = Math.max(1, Math.round(left / (this.colWidth + this.marginLeft + this.marginRight)) + 1);
+		let row = Math.max(1, Math.round(top / (this.rowHeight + this.marginTop + this.marginBottom)) + 1);
 
 		if (!this._isWithinBoundsX({ col: col, row: row }, { x: 1, y: 1 })) col = this._maxCols;
 		if (!this._isWithinBoundsY({ col: col, row: row }, { x: 1, y: 1 })) row = this._maxRows;
@@ -795,7 +811,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _hasGridCollision(pos: INgWidgetPosition, dims: INgWidgetSize): boolean {
-		var positions = this._getCollisions(pos, dims);
+		const positions = this._getCollisions(pos, dims);
 
 		if (positions == null || positions.length === 0) return false;
 
@@ -814,16 +830,15 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 			pos.row = 1;
 		}
 
-		for (let j: number = 0; j < dims.y; j++) {
+		for (let j = 0; j < dims.y; j++) {
 			if (this._itemGrid[pos.row + j] != null) {
-				for (let i: number = 0; i < dims.x; i++) {
+				for (let i = 0; i < dims.x; i++) {
 					if (this._itemGrid[pos.row + j][pos.col + i] != null) {
 						const item: NgWidget = this._itemGrid[pos.row + j][pos.col + i];
 
-						if (returns.indexOf(item) < 0)
-							returns.push(item);
+						if (returns.indexOf(item) < 0) returns.push(item);
 
-						const itemPos: INgWidgetPosition = item.getGridPosition();
+						const itemPos: INgWidgetPosition = item.getWidgetPosition();
 						const itemDims: INgWidgetSize = item.getSize();
 
 						i = itemPos.col + itemDims.x - pos.col;
@@ -836,15 +851,14 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _fixGridCollisions(pos: INgWidgetPosition, dims: INgWidgetSize): void {
-		if(this.allowOverlap) {
-			return;
-		}
+		if (this.allowOverlap)  return;
+
 		while (this._hasGridCollision(pos, dims)) {
 			const collisions: Array<NgWidget> = this._getCollisions(pos, dims);
 
 			this._removeFromGrid(collisions[0]);
 
-			const itemPos: INgWidgetPosition = collisions[0].getGridPosition();
+			const itemPos: INgWidgetPosition = collisions[0].getWidgetPosition();
 			const itemDims: INgWidgetSize = collisions[0].getSize();
 
 			switch (this.cascade) {
@@ -881,16 +895,16 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 	private _cascadeGrid(pos?: INgWidgetPosition, dims?: INgWidgetSize): void {
 		if (this._destroyed) return;
-		if(this.allowOverlap) {
+		if (this.allowOverlap) {
 			return;
 		}
 		if (pos && !dims) throw new Error('Cannot cascade with only position and not dimensions');
 
 		if (this.isDragging && this._draggingItem && !pos && !dims) {
-			pos = this._draggingItem.getGridPosition();
+			pos = this._draggingItem.getWidgetPosition();
 			dims = this._draggingItem.getSize();
 		} else if (this.isResizing && this._resizingItem && !pos && !dims) {
-			pos = this._resizingItem.getGridPosition();
+			pos = this._resizingItem.getWidgetPosition();
 			dims = this._resizingItem.getSize();
 		}
 
@@ -899,13 +913,12 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 			case 'down':
 				const lowRow: Array<number> = [0];
 
-				for (let i: number = 1; i <= this._curMaxCol; i++)
-					lowRow[i] = 1;
+				for (let i = 1; i <= this._curMaxCol; i++) lowRow[i] = 1;
 
-				for (let r: number = 1; r <= this._curMaxRow; r++) {
+				for (let r = 1; r <= this._curMaxRow; r++) {
 					if (this._itemGrid[r] === undefined) continue;
 
-					for (let c: number = 1; c <= this._curMaxCol; c++) {
+					for (let c = 1; c <= this._curMaxCol; c++) {
 						if (this._itemGrid[r] === undefined) break;
 						if (r < lowRow[c]) continue;
 
@@ -913,28 +926,28 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 							const item: NgWidget = this._itemGrid[r][c];
 							if (item.isFixed) continue;
 
-							const itemPos: INgWidgetPosition = item.getGridPosition();
+							const itemPos: INgWidgetPosition = item.getWidgetPosition();
 							const itemDims: INgWidgetSize = item.getSize();
 
-							if (itemPos.col !== c || itemPos.row !== r) continue;	//	if this is not the element's start
+							if (itemPos.col !== c || itemPos.row !== r) continue;	// 	if this is not the element's start
 
 							let lowest: number = lowRow[c];
 
-							for (let i: number = 1; i < itemDims.x; i++) {
+							for (let i = 1; i < itemDims.x; i++) {
 								lowest = Math.max(lowRow[(c + i)], lowest);
 							}
 
-							if (pos && (c + itemDims.x) > pos.col && c < (pos.col + dims.x)) {          //	if our element is in one of the item's columns
-								if ((r >= pos.row && r < (pos.row + dims.y)) ||                         //	if this row is occupied by our element
-									((itemDims.y > (pos.row - lowest)) &&                               //	or the item can't fit above our element
-										(r >= (pos.row + dims.y) && lowest < (pos.row + dims.y)))) {    //		and this row is below our element, but we haven't caught it
-									lowest = Math.max(lowest, pos.row + dims.y);                        //	set the lowest row to be below it
+							if (pos && (c + itemDims.x) > pos.col && c < (pos.col + dims.x)) {          // 	if our element is in one of the item's columns
+								if ((r >= pos.row && r < (pos.row + dims.y)) ||                         // 	if this row is occupied by our element
+									((itemDims.y > (pos.row - lowest)) &&                               // 	or the item can't fit above our element
+										(r >= (pos.row + dims.y) && lowest < (pos.row + dims.y)))) {    // 	and this row is below our element, but we haven't caught it
+									lowest = Math.round(Math.max(lowest, pos.row + dims.y));                        // 	set the lowest row to be below it
 								}
 							}
 
 							const newPos: INgWidgetPosition = { col: c, row: lowest };
 
-							if (lowest !== itemPos.row && this._isWithinBoundsY(newPos, itemDims)) {	//	if the item is not already on this row move it up
+							if (lowest !== itemPos.row && this._isWithinBoundsY(newPos, itemDims)) {	// 	if the item is not already on this row move it up
 								this._removeFromGrid(item);
 
 								item.setGridPosition(newPos);
@@ -943,8 +956,8 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 								this._addToGrid(item);
 							}
 
-							for (let i: number = 0; i < itemDims.x; i++) {
-								lowRow[c + i] = lowest + itemDims.y;	//	update the lowest row to be below the item
+							for (let i = 0; i < itemDims.x; i++) {
+								lowRow[c + i] = lowest + itemDims.y;	// 	update the lowest row to be below the item
 							}
 						}
 					}
@@ -954,41 +967,42 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 			case 'right':
 				const lowCol: Array<number> = [0];
 
-				for (let i: number = 1; i <= this._curMaxRow; i++)
-					lowCol[i] = 1;
+				for (let i = 1; i <= this._curMaxRow; i++) lowCol[i] = 1;
 
-				for (let r: number = 1; r <= this._curMaxRow; r++) {
+				for (let r = 1; r <= this._curMaxRow; r++) {
 					if (this._itemGrid[r] === undefined) continue;
 
-					for (let c: number = 1; c <= this._curMaxCol; c++) {
+					for (let c = 1; c <= this._curMaxCol; c++) {
 						if (this._itemGrid[r] === undefined) break;
 						if (c < lowCol[r]) continue;
 
 						if (this._itemGrid[r][c] != null) {
 							const item: NgWidget = this._itemGrid[r][c];
 							const itemDims: INgWidgetSize = item.getSize();
-							const itemPos: INgWidgetPosition = item.getGridPosition();
+							const itemPos: INgWidgetPosition = item.getWidgetPosition();
 
-							if (itemPos.col !== c || itemPos.row !== r) continue;	//	if this is not the element's start
+							if (itemPos.col !== c || itemPos.row !== r) continue;	// 	if this is not the element's start
 
 							let lowest: number = lowCol[r];
 
-							for (let i: number = 1; i < itemDims.y; i++) {
+							for (let i = 1; i < itemDims.y; i++) {
 								lowest = Math.max(lowCol[(r + i)], lowest);
 							}
 
-							if (pos && (r + itemDims.y) > pos.row && r < (pos.row + dims.y)) {          //	if our element is in one of the item's rows
-								if ((c >= pos.col && c < (pos.col + dims.x)) ||                         //	if this col is occupied by our element
-									((itemDims.x > (pos.col - lowest)) &&                               //	or the item can't fit above our element
-										(c >= (pos.col + dims.x) && lowest < (pos.col + dims.x)))) {    //		and this col is below our element, but we haven't caught it
-									lowest = Math.max(lowest, pos.col + dims.x);                        //	set the lowest col to be below it
+							if (pos && (r + itemDims.y) > pos.row && r < (pos.row + dims.y)) {          // 	if our element is in one of the item's rows
+								if ((c >= pos.col && c < (pos.col + dims.x)) ||                         // 	if this col is occupied by our element
+									((itemDims.x > (pos.col - lowest)) &&                               // 	or the item can't fit above our element
+										(c >= (pos.col + dims.x) && lowest < (pos.col + dims.x)))) {    // 	and this col is below our element, but we haven't caught it
+									lowest = Math.max(lowest, pos.col + dims.x);                        // 	set the lowest col to be below it
 								}
 							}
 
-							const newPos: INgWidgetPosition = { col: lowest, row: r };
+							const newPos: INgWidgetPosition = { col: Math.round(lowest), row: r };
 
-							if (lowest !== itemPos.col && this._isWithinBoundsX(newPos, itemDims)) {	//	if the item is not already on this col move it up
+							// if (lowest !== itemPos.col && this._isWithinBoundsX(newPos, itemDims)) {	// 	if the item is not already on this col move it up
+							if (lowest !== itemPos.col && lowest < itemPos.col && this._isWithinBoundsX(newPos, itemDims)) {	// 	if the item is not already on this col move it up
 								this._removeFromGrid(item);
+								console.log('_cascadeGrid called setGridPosition', this.cascade, lowest, itemPos, newPos, itemDims);
 
 								item.setGridPosition(newPos);
 
@@ -996,8 +1010,138 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 								this._addToGrid(item);
 							}
 
-							for (let i: number = 0; i < itemDims.y; i++) {
-								lowCol[r + i] = lowest + itemDims.x;	//	update the lowest col to be below the item
+							for (let i = 0; i < itemDims.y; i++) {
+								lowCol[r + i] = lowest + itemDims.x;	// 	update the lowest col to be below the item
+							}
+						}
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	private _cascadePlaceHolder(pos?: INgWidgetPosition, dims?: INgWidgetSize): void {
+		if (this._destroyed) return;
+		if (this.allowOverlap) {
+			return;
+		}
+		if (pos && !dims) throw new Error('Cannot cascade with only position and not dimensions');
+
+		if (this.isDragging && this._draggingItem && !pos && !dims) {
+			pos = this._draggingItem.getWidgetPosition();
+			dims = this._draggingItem.getSize();
+		} else if (this.isResizing && this._resizingItem && !pos && !dims) {
+			pos = this._resizingItem.getWidgetPosition();
+			dims = this._resizingItem.getSize();
+		}
+
+		switch (this.cascade) {
+			case 'up':
+			case 'down':
+				const lowRow: Array<number> = [0];
+
+				for (let i = 1; i <= this._curMaxCol; i++) lowRow[i] = 1;
+
+				for (let r = 1; r <= this._curMaxRow; r++) {
+					if (this._itemGrid[r] === undefined) continue;
+
+					for (let c = 1; c <= this._curMaxCol; c++) {
+						if (this._itemGrid[r] === undefined) break;
+						if (r < lowRow[c]) continue;
+
+						if (this._itemGrid[r][c] != null) {
+							const item: NgWidget = this._itemGrid[r][c];
+							if (item.isFixed) continue;
+
+							const itemPos: INgWidgetPosition = item.getWidgetPosition();
+							const itemDims: INgWidgetSize = item.getSize();
+
+							if (itemPos.col !== c || itemPos.row !== r) continue;	// 	if this is not the element's start
+
+							let lowest: number = lowRow[c];
+
+							for (let i = 1; i < itemDims.x; i++) {
+								lowest = Math.max(lowRow[(c + i)], lowest);
+							}
+
+							if (pos && (c + itemDims.x) > pos.col && c < (pos.col + dims.x)) {          // 	if our element is in one of the item's columns
+								if ((r >= pos.row && r < (pos.row + dims.y)) ||                         // 	if this row is occupied by our element
+									((itemDims.y > (pos.row - lowest)) &&                               // 	or the item can't fit above our element
+										(r >= (pos.row + dims.y) && lowest < (pos.row + dims.y)))) {    // 	and this row is below our element, but we haven't caught it
+									lowest = Math.max(lowest, pos.row + dims.y);                        // 	set the lowest row to be below it
+								}
+							}
+
+							const newPos: INgWidgetPosition = { col: c, row: lowest };
+
+							if (lowest !== itemPos.row && this._isWithinBoundsY(newPos, itemDims)) {	// 	if the item is not already on this row move it up
+								// this._removeFromGrid(item);
+
+								// item.setGridPosition(newPos);
+
+								// item.onCascadeEvent();
+								// this._addToGrid(item);
+								this._placeholderRef.instance.setGridPosition(newPos);
+							}
+
+							for (let i = 0; i < itemDims.x; i++) {
+								lowRow[c + i] = lowest + itemDims.y;	// 	update the lowest row to be below the item
+							}
+						}
+					}
+				}
+				break;
+			case 'left':
+			case 'right':
+				const lowCol: Array<number> = [0];
+
+				for (let i = 1; i <= this._curMaxRow; i++) lowCol[i] = 1;
+
+				for (let r = 1; r <= this._curMaxRow; r++) {
+					if (this._itemGrid[r] === undefined) continue;
+
+					for (let c = 1; c <= this._curMaxCol; c++) {
+						if (this._itemGrid[r] === undefined) break;
+						if (c < lowCol[r]) continue;
+
+						if (this._itemGrid[r][c] != null) {
+							const item: NgWidget = this._itemGrid[r][c];
+							const itemDims: INgWidgetSize = item.getSize();
+							const itemPos: INgWidgetPosition = item.getWidgetPosition();
+
+							if (itemPos.col !== c || itemPos.row !== r) continue;	// 	if this is not the element's start
+
+							let lowest: number = lowCol[r];
+
+							for (let i = 1; i < itemDims.y; i++) {
+								lowest = Math.max(lowCol[(r + i)], lowest);
+							}
+
+							if (pos && (r + itemDims.y) > pos.row && r < (pos.row + dims.y)) {          // 	if our element is in one of the item's rows
+								if ((c >= pos.col && c < (pos.col + dims.x)) ||                         // 	if this col is occupied by our element
+									((itemDims.x > (pos.col - lowest)) &&                               // 	or the item can't fit above our element
+										(c >= (pos.col + dims.x) && lowest < (pos.col + dims.x)))) {    // 	and this col is below our element, but we haven't caught it
+									lowest = Math.max(lowest, pos.col + dims.x);                        // 	set the lowest col to be below it
+								}
+							}
+
+							const newPos: INgWidgetPosition = { col: lowest, row: r };
+
+							if (lowest !== itemPos.col && lowest < itemPos.col && this._isWithinBoundsX(newPos, itemDims)) {	// 	if the item is not already on this col move it up
+								// this._removeFromGrid(item);
+								// console.log('_cascadeGrid called setGridPosition', this.cascade, lowest, itemPos, newPos, itemDims);
+
+								// item.setGridPosition(newPos);
+
+								// item.onCascadeEvent();
+								// this._addToGrid(item);
+								this._placeholderRef.instance.setGridPosition(newPos);
+							}
+
+							for (let i = 0; i < itemDims.y; i++) {
+								lowCol[r + i] = lowest + itemDims.x;	// 	update the lowest col to be below the item
 							}
 						}
 					}
@@ -1095,34 +1239,34 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 		// if( (this.isDragging || this.isResizing) && this.allowOverlap) {
 		// 	return;
 		// }
-		let pos: INgWidgetPosition = item.getGridPosition();
+		let pos: INgWidgetPosition = item.getWidgetPosition();
 		const dims: INgWidgetSize = item.getSize();
 
 		if (this._hasGridCollision(pos, dims)) {
 			this._fixGridCollisions(pos, dims);
-			pos = item.getGridPosition();
+			pos = item.getWidgetPosition();
 		}
 
-		for (let j: number = 0; j < dims.y; j++) {
+		for (let j = 0; j < dims.y; j++) {
 			if (this._itemGrid[pos.row + j] == null) this._itemGrid[pos.row + j] = {};
 
-			for (let i: number = 0; i < dims.x; i++) {
+			for (let i = 0; i < dims.x; i++) {
 				this._itemGrid[pos.row + j][pos.col + i] = item;
 			}
 		}
 	}
 
 	private _removeFromGrid(item: NgWidget): void {
-		for (let y in this._itemGrid)
-			for (let x in this._itemGrid[y])
+		for (const y in this._itemGrid)
+			for (const x in this._itemGrid[y])
 				if (this._itemGrid[y][x] === item)
 					delete this._itemGrid[y][x];
 	}
 
 	private _filterGrid(): void {
 		// tslint:disable:forin
-		for (let y in this._itemGrid) {
-			for (let x in this._itemGrid[y]) {
+		for (const y in this._itemGrid) {
+			for (const x in this._itemGrid[y]) {
 				const item: NgWidget = this._itemGrid[y][x];
 				const withinRow = <any>y < (item.row + item.sizey) && <any>y >= item.row;
 				const withinCol = <any>x < (item.col + item.sizex) && <any>x >= item.col;
@@ -1140,15 +1284,15 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 
 	private _updateSize(): void {
 		if (this._destroyed) return;
-		let maxCol: number = this._getMaxCol();
-		let maxRow: number = this._getMaxRow();
+		const maxCol: number = this._getMaxCol();
+		const maxRow: number = this._getMaxRow();
 
 		if (maxCol !== this._curMaxCol || maxRow !== this._curMaxRow) {
 			this._curMaxCol = maxCol;
 			this._curMaxRow = maxRow;
 		}
 
-		this._renderer.setElementStyle(this._ngEl.nativeElement, 'width', '100%');// (maxCol * (this.colWidth + this.marginLeft + this.marginRight))+'px');
+		this._renderer.setElementStyle(this._ngEl.nativeElement, 'width', '100%'); // (maxCol * (this.colWidth + this.marginLeft + this.marginRight))+'px');
 		this._renderer.setElementStyle(this._ngEl.nativeElement, 'height', (maxRow * (this.rowHeight + this.marginTop + this.marginBottom)) + 'px');
 	}
 
@@ -1206,7 +1350,7 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _getItemFromPosition(position: INgWidgetContainerRawPosition): NgWidget {
-		for (let item of this._items) {
+		for (const item of this._items) {
 			const size: INgWidgetDimensions = item.getDimensions();
 			const pos: INgWidgetContainerRawPosition = item.getPosition();
 
@@ -1220,17 +1364,17 @@ export class NgWidgetContainer implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _createPlaceholder(item: NgWidget): void {
-		const pos: INgWidgetPosition = item.getGridPosition();
+		const pos: INgWidgetPosition = item.getWidgetPosition();
 		const dims: INgWidgetSize = item.getSize();
 
-        const factory = this.componentFactoryResolver.resolveComponentFactory(NgWidgetPlaceholder);
-        var componentRef: ComponentRef<NgWidgetPlaceholder> = item.containerRef.createComponent(factory);
-        this._placeholderRef = componentRef;
-        const placeholder: NgWidgetPlaceholder = componentRef.instance;
-        placeholder.registerGrid(this);
-        placeholder.setCascadeMode(this.cascade);
-        placeholder.setGridPosition({ col: pos.col, row: pos.row });
-        placeholder.setSize({ x: dims.x, y: dims.y });
+		const factory = this.componentFactoryResolver.resolveComponentFactory(NgWidgetPlaceholder);
+		const componentRef: ComponentRef<NgWidgetPlaceholder> = item.containerRef.createComponent(factory);
+		this._placeholderRef = componentRef;
+		const placeholder: NgWidgetPlaceholder = componentRef.instance;
+		placeholder.registerGrid(this);
+		placeholder.setCascadeMode(this.cascade);
+		placeholder.setGridPosition({ col: pos.col, row: pos.row });
+		placeholder.setSize({ x: dims.x, y: dims.y });
 	}
 
 	private _emitOnItemChange() {

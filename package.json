@@ -1,6 +1,6 @@
 {
     "name": "ngx-draggable-widget",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "[![GitHub version](http://img.shields.io/github/release/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget)\r [![npm version](http://img.shields.io/npm/v/ngx-draggable-widget.svg)](https://www.npmjs.com/package/ngx-draggable-widget)\r [![bower version](http://img.shields.io/bower/v/ngx-draggable-widget.svg)](https://libraries.io/bower/ngx-draggable-widget)\r [![license](http://img.shields.io/github/license/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/blob/master/LICENSE)\r [![open issues](http://img.shields.io/github/issues/arup-banerjee%2Fngx-draggable-widget.svg)](https://github.com/arup-banerjee/ngx-draggable-widget/issues)\r [![Chat on Gitter](https://img.shields.io/gitter/room/ngx-draggable-widget/lobby.svg)](https://gitter.im/ngx-draggable-widget/Lobby#)",
     "main": "karma.conf.js",
     "directories": {

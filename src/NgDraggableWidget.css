@@ -1,11 +1,11 @@
 .widget-container {
-    background-color: #efefef;
+    background-color: #282828;
     transform-origin: top center;
     transition: transform 0.5s;
 }
 
 .widget {
-    background-color: #ffffff;
+    background-color: #282828;
     -webkit-transition: width 0.25s, height 0.25s, transform 0.5s;
     -moz-transition: width 0.25s, height 0.25s, transform 0.5s;
     -o-transition: width 0.25s, height 0.25s, transform 0.5s;
@@ -19,6 +19,7 @@
     -moz-transition: none;
     -o-transition: none;
     transition: none;
+    opacity: 0.7
 }
 
 .widget-placeholder {

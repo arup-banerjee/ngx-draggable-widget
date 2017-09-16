@@ -20,9 +20,9 @@ export interface INgWidgetContainerConfig {
 	prefer_new?: boolean;
 	zoom_on_drag?: boolean;
 	limit_to_screen?: boolean;
-    allow_overlap?: boolean;
-    widget_width_factor?: number;
-    widget_height_factor?: number;
+	allow_overlap?: boolean;
+	widget_width_factor?: number;
+	widget_height_factor?: number;
 }
 
 export interface INgWidgetConfig {
@@ -43,8 +43,8 @@ export interface INgWidgetConfig {
 	minRows?: number;
 	minWidth?: number;
 	minHeight?: number;
-    unitx?: number;
-    unity?: number;
+	unitx?: number;
+	unity?: number;
 }
 
 export interface INgWidgetEvent {

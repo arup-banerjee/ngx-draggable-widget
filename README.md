@@ -176,9 +176,9 @@ The **`NgDraggableContainer`** and **`NgWidget`** can be configured by binding d
 
 ```html
 <div [ngWidgetContainer]="{'resizeable': false, 'margins': [5, 10]}">
-    <div *ngFor="let box of boxes" [(ngWidget)]="box.config">
-        <div class="title">{{box.title}}</div>
-        <p>{{box.text}}</p>
+    <div *ngFor="let widget of widgets" [(ngWidget)]="widget.config">
+        <div class="title">{{widget.title}}</div>
+        <p>{{widget.text}}</p>
     </div>
 </div>
 ```
@@ -217,4 +217,7 @@ packages: {
 
 Alternatively, you can use the bundled version by setting the `map` value to `'node_modules/ngx-draggable-widget/dist/bundles'` and the `main` value within packages to `NgDraggableWidget.min.js`.
 
+## Credits
 
+The library is inspired by and based on the work from [angular2-grid](https://github.com/BTMorton/angular2-grid). Also used Angular Material and scss for the demo although
+the library itself has no dependency on Angular Material.

@@ -18,8 +18,9 @@
         "testTsconfig": "tsconfig.spec.json",
         "prefix": "app",
         "styles": [
-            "styles.css",
-            "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+            "styles.scss",
+            "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "../node_modules/ngx-draggable-widget/NgDraggableWidget.css"
         ],
         "scripts": [],
         "environmentSource": "environments/environment.ts",
@@ -52,7 +53,7 @@
         }
     },
     "defaults": {
-        "styleExt": "css",
+        "styleExt": "scss",
         "component": {}
     }
 }

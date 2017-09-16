@@ -1,13 +1,29 @@
-// tslint:disable:max-line-length
 import { NgWidgetContainer } from "./NgWidgetContainer";
 import { INgWidgetConfig, INgWidgetEvent, INgWidgetPosition, INgWidgetSize, INgWidgetContainerRawPosition, INgWidgetDimensions } from "../interfaces/INgDraggableWidgetConfig";
 import { Component, Directive, ElementRef, Renderer, EventEmitter, Host, ViewEncapsulation, Type, ComponentRef, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy, DoCheck, ViewContainerRef, Output } from '@angular/core';
 
+/**
+ *	inputs array instead of @input decorator for ionic compatibility
+ */
 @Directive({
 	selector: "[ngWidget]",
 	inputs: ["config: ngWidget"]
 })
-export class NgWidget implements OnInit, OnDestroy {
+export class NgWidget implements OnInit, OnDestroy, DoCheck {
+		private static CONST_DEFAULT_CONFIG: INgWidgetConfig = {
+		col: 1,
+		row: 1,
+		sizex: 1,
+		sizey: 1,
+		dragHandle: null,
+		resizeHandle: null,
+		fixed: false,
+		draggable: true,
+		resizable: true,
+		borderSize: 25,
+		unitx: 0,
+		unity: 0
+	};
 	// 	event Emitters
 	@Output() public onItemChange: EventEmitter<INgWidgetEvent> = new EventEmitter<INgWidgetEvent>(false);
 	@Output() public onDragStart: EventEmitter<INgWidgetEvent> = new EventEmitter<INgWidgetEvent>();
@@ -25,26 +41,13 @@ export class NgWidget implements OnInit, OnDestroy {
 	@Output() public ngWidgetChange: EventEmitter<INgWidgetConfig> = new EventEmitter<INgWidgetConfig>();
 
 	// 	default config
-	private static CONST_DEFAULT_CONFIG: INgWidgetConfig = {
-		col: 1,
-		row: 1,
-		sizex: 1,
-		sizey: 1,
-		dragHandle: null,
-		resizeHandle: null,
-		fixed: false,
-		draggable: true,
-		resizable: true,
-		borderSize: 25,
-        unitx: 0,
-        unity: 0
-	};
 
-	public isFixed: boolean = false;
-	public isDraggable: boolean = true;
-	public isResizable: boolean = true;
-	public minWidth: number = 0;
-	public minHeight: number = 0;
+
+	public isFixed = false;
+	public isDraggable = true;
+	public isResizable = true;
+	public minWidth = 0;
+	public minHeight = 0;
 
 	// 	private variables
 	private _payload: any;
@@ -58,19 +61,20 @@ export class NgWidget implements OnInit, OnDestroy {
 	private _elemHeight: number;
 	private _elemLeft: number;
 	private _elemTop: number;
-    private _added: boolean = false;
-    private _differ: KeyValueDiffer<String, any>;
+	private _added = false;
+	private _differ: KeyValueDiffer<String, any>;
 	private _cascadeMode: string;
-	private _maxCols: number = 0;
-	private _minCols: number = 0;
-	private _maxRows: number = 0;
-	private _minRows: number = 0;
+	private _maxCols = 0;
+	private _minCols = 0;
+	private _maxRows = 0;
+	private _minRows = 0;
+	private _dragStartPosition: INgWidgetPosition = { col: 1, row: 1};
 
 	// 	[ng-widget] handler
 	set config(v: INgWidgetConfig) {
 		const defaults = NgWidget.CONST_DEFAULT_CONFIG;
 
-		for (let x in defaults) {
+		for (const x in defaults) {
 			if (!v[x]) {
 				v[x] = defaults[x];
 			}
@@ -121,7 +125,7 @@ export class NgWidget implements OnInit, OnDestroy {
 
 	public onResizeStartEvent(): void {
 		const event: INgWidgetEvent = this.getEventOutput();
-		this._renderer.setElementStyle(this._ngEl.nativeElement, "z-index", String(++this._ngWidgetContainer.zIndex));
+		this._renderer.setElementStyle(this._ngEl.nativeElement, 'z-index', String(++this._ngWidgetContainer.zIndex));
 		this.onResizeStart.emit(event);
 		this.onResizeAny.emit(event);
 		this.onChangeStart.emit(event);
@@ -179,10 +183,10 @@ export class NgWidget implements OnInit, OnDestroy {
 		this.ngWidgetChange.emit(this._config);
 	}
 
-	// tslint:disable:curly
 	public ngOnInit(): void {
+		console.log("ngOnInit");
 		this._renderer.setElementClass(this._ngEl.nativeElement, "widget", true);
-		if (this._ngWidgetContainer.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'absolute');
+		if (this._ngWidgetContainer.autoStyle) {this._renderer.setElementStyle(this._ngEl.nativeElement, "position", "absolute"); }
 		this._recalculateDimensions();
 		this._recalculatePosition();
 
@@ -219,53 +223,67 @@ export class NgWidget implements OnInit, OnDestroy {
 		return false;
 	}
 
-	// tslint:disable:quotemark
 	public canResize(e: any): string {
+		console.log("isResizable,_resizeHandle,_borderSize", this.isResizable, this._resizeHandle, this._borderSize);
 		if (!this.isResizable) return null;
 
 		if (this._resizeHandle) {
-			return this.findHandle(this._resizeHandle, e.target) ? 'both' : null;
+			return this.findHandle(this._resizeHandle, e.target) ? "both" : null;
 		}
 
 		if (this._borderSize <= 0) return null;
 
+		// const mousePos: INgWidgetContainerRawPosition = this._getMousePosition(e);
+
+		// if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize
+		// 	&& mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
+		// 	return 'both';
+		// } else if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize) {
+		// 	return 'width';
+		// } else if (mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
+		// 	return 'height';
+		// }
+		return this.getResizeDirection(e);
+
+		// return null;
+	}
+
+	public getResizeDirection(e: MouseEvent): string {
 		const mousePos: INgWidgetContainerRawPosition = this._getMousePosition(e);
 
 		if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize
 			&& mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
-			return 'both';
+			return "both";
 		} else if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize) {
-			return 'width';
+			return "width";
 		} else if (mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
-			return 'height';
-		}
-
-		return null;
+			return "height";
+		} else
+			return null;
 	}
 
-	// tslint:disable:quotemark
 	public onMouseMove(e: any): void {
 		if (this._ngWidgetContainer.autoStyle) {
 			if (this._ngWidgetContainer.resizeEnable && !this._resizeHandle && this.isResizable) {
 				const mousePos: INgWidgetContainerRawPosition = this._getMousePosition(e);
 				if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize
 					&& mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
-					this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'nwse-resize');
+					this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "nwse-resize");
 				} else if (mousePos.left < this._elemWidth && mousePos.left > this._elemWidth - this._borderSize) {
-					this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'ew-resize');
+					this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "ew-resize");
 				} else if (mousePos.top < this._elemHeight && mousePos.top > this._elemHeight - this._borderSize) {
-					this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'ns-resize');
+					this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "ns-resize");
 				} else if (this._ngWidgetContainer.dragEnable && this.canDrag(e)) {
-					this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'move');
+					this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "move");
 				} else {
-					this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'default');
+					this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "default");
 				}
 			} else if (this._ngWidgetContainer.resizeEnable && this.canResize(e)) {
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'nwse-resize');
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "nwse-resize");
 			} else if (this._ngWidgetContainer.dragEnable && this.canDrag(e)) {
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'move');
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "move");
 			} else {
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'cursor', 'default');
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "cursor", "default");
 			}
 		}
 	}
@@ -288,7 +306,7 @@ export class NgWidget implements OnInit, OnDestroy {
 	}
 
 	public getDimensions(): INgWidgetDimensions {
-		return { 'width': this._elemWidth, 'height': this._elemHeight };
+		return { "width": this._elemWidth, "height": this._elemHeight };
 	}
 
 	public getSize(): INgWidgetSize {
@@ -296,34 +314,40 @@ export class NgWidget implements OnInit, OnDestroy {
 	}
 
 	public getPosition(): INgWidgetContainerRawPosition {
-		return { 'left': this._elemLeft, 'top': this._elemTop };
+		return { "left": this._elemLeft, "top": this._elemTop };
 	}
 
-	public getGridPosition(): INgWidgetPosition {
+	public getWidgetPosition(): INgWidgetPosition {
 		return this._currentPosition;
 	}
 
+	public getWidgetDragStartPosition(): INgWidgetPosition {
+		return this._dragStartPosition;
+	}
 	// 	setters
+	public setWidgetDragStartPosition(position: INgWidgetPosition) {
+		this._dragStartPosition = position;
+	}
+
 	public setConfig(config: INgWidgetConfig): void {
+		console.log(config);
 		this._config = config;
 
 		this._payload = config.payload;
 		this._currentPosition.col = config.col ? config.col : NgWidget.CONST_DEFAULT_CONFIG.col;
-        this._currentPosition.row = config.row ? config.row : NgWidget.CONST_DEFAULT_CONFIG.row;
-        console.log('(this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null', (this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null);
-        console.log('(this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null', (this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null);
-        if ((this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null) {
-            this._size.x = this._ngWidgetContainer.widget_width_factor * config.unitx;
-            console.log(this._size.x, this._ngWidgetContainer.widget_width_factor * config.unitx);
-        } else {
-            this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
-        }
+		this._currentPosition.row = config.row ? config.row : NgWidget.CONST_DEFAULT_CONFIG.row;
+		if (!this._added && ((this._ngWidgetContainer.getConfig().widget_width_factor && config.unitx) != null ) ) {
+			this._size.x = this._ngWidgetContainer.widget_width_factor * config.unitx;
+			console.log(this._size.x, this._ngWidgetContainer.widget_width_factor * config.unitx);
+		} else {
+			this._size.x = config.sizex ? config.sizex : NgWidget.CONST_DEFAULT_CONFIG.sizex;
+		}
 
-        if ((this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null) {
-            this._size.y = this._ngWidgetContainer.widget_height_factor * config.unity;
-        } else {
-            this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
-        }
+		if (!this._added && ((this._ngWidgetContainer.getConfig().widget_height_factor && config.unity) != null)) {
+			this._size.y = this._ngWidgetContainer.widget_height_factor * config.unity;
+		} else {
+			this._size.y = config.sizey ? config.sizey : NgWidget.CONST_DEFAULT_CONFIG.sizey;
+		}
 
 		this._dragHandle = config.dragHandle;
 		this._resizeHandle = config.resizeHandle;
@@ -357,7 +381,8 @@ export class NgWidget implements OnInit, OnDestroy {
 		if (this._differ != null) {
 			const changes: any = this._differ.diff(this._config);
 
-			if (changes != null) {
+			if (changes != null ) {
+				console.log("ngDoCheck -> NgWidget");
 				this._applyChanges(changes);
 
 				return true;
@@ -375,8 +400,9 @@ export class NgWidget implements OnInit, OnDestroy {
 		this.onItemChange.emit(this.getEventOutput());
 	}
 
-	public setGridPosition(gridPosition: INgWidgetPosition, update: boolean = true): void {
-		this._currentPosition = gridPosition;
+	public setGridPosition(widgetPosition: INgWidgetPosition, update: boolean = true): void {
+		console.log("widget -> setGridPosition", widgetPosition);
+		this._currentPosition = widgetPosition;
 		if (update) { this._recalculatePosition(); }
 
 		this.onItemChange.emit(this.getEventOutput());
@@ -398,14 +424,14 @@ export class NgWidget implements OnInit, OnDestroy {
 
 	public setPosition(x: number, y: number): void {
 		switch (this._cascadeMode) {
-			case 'up':
-			case 'left':
+			case "up":
+			case "left":
 			default:
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'left', x + 'px');
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'top', y + 'px');
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "left", x + "px");
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "top", y + "px");
 				break;
-			case 'right':
-				this._renderer.setElementStyle(this._ngEl.nativeElement, 'right', x + "px");
+			case "right":
+				this._renderer.setElementStyle(this._ngEl.nativeElement, "right", x + "px");
 				this._renderer.setElementStyle(this._ngEl.nativeElement, "top", y + "px");
 				break;
 			case "down":
@@ -459,8 +485,7 @@ export class NgWidget implements OnInit, OnDestroy {
 		this._renderer.setElementClass(this._ngEl.nativeElement, "moving", true);
 		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
 		if (this._ngWidgetContainer.autoStyle) {
-			 // tslint:disable-next-line:radix
-			 this._renderer.setElementStyle(this._ngEl.nativeElement, "z-index", (parseInt(style.getPropertyValue("z-index")) + 1).toString());
+			this._renderer.setElementStyle(this._ngEl.nativeElement, "z-index", (parseInt(style.getPropertyValue("z-index"), 10) + 1).toString());
 		}
 	}
 
@@ -468,8 +493,7 @@ export class NgWidget implements OnInit, OnDestroy {
 		this._renderer.setElementClass(this._ngEl.nativeElement, "moving", false);
 		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
 		if (this._ngWidgetContainer.autoStyle) {
-			// tslint:disable-next-line:radix
-			this._renderer.setElementStyle(this._ngEl.nativeElement, "z-index", (parseInt(style.getPropertyValue("z-index")) - 1).toString());
+			this._renderer.setElementStyle(this._ngEl.nativeElement, "z-index", (parseInt(style.getPropertyValue("z-index"), 10) - 1).toString());
 		}
 	}
 
@@ -479,23 +503,17 @@ export class NgWidget implements OnInit, OnDestroy {
 	}
 
 	public fixResize(newSize: INgWidgetSize): INgWidgetSize {
-		// tslint:disable:curly
 		if (this._maxCols > 0 && newSize.x > this._maxCols) newSize.x = this._maxCols;
 		if (this._maxRows > 0 && newSize.y > this._maxRows) newSize.y = this._maxRows;
 
 		if (this._minCols > 0 && newSize.x < this._minCols) newSize.x = this._minCols;
 		if (this._minRows > 0 && newSize.y < this._minRows) newSize.y = this._minRows;
 
-		// tslint:disable-next-line:max-line-length
-		// tslint:disable-next-line:typedef
 		const itemWidth = (newSize.x * this._ngWidgetContainer.colWidth) + ((this._ngWidgetContainer.marginLeft + this._ngWidgetContainer.marginRight) * (newSize.x - 1));
-		// tslint:disable-next-line:max-line-length
-		if (itemWidth < this.minWidth) newSize.x = Math.ceil((this.minWidth + this._ngWidgetContainer.marginRight + this._ngWidgetContainer.marginLeft) / (this._ngWidgetContainer.colWidth + this._ngWidgetContainer.marginRight + this._ngWidgetContainer.marginLeft));
+		if (itemWidth < this.minWidth) newSize.x = Math.round(Math.ceil((this.minWidth + this._ngWidgetContainer.marginRight + this._ngWidgetContainer.marginLeft) / (this._ngWidgetContainer.colWidth + this._ngWidgetContainer.marginRight + this._ngWidgetContainer.marginLeft)));
 
-		// tslint:disable:max-line-length
-		// tslint:disable-next-line:typedef
 		const itemHeight = (newSize.y * this._ngWidgetContainer.rowHeight) + ((this._ngWidgetContainer.marginTop + this._ngWidgetContainer.marginBottom) * (newSize.y - 1));
-		if (itemHeight < this.minHeight) newSize.y = Math.ceil((this.minHeight + this._ngWidgetContainer.marginBottom + this._ngWidgetContainer.marginTop) / (this._ngWidgetContainer.rowHeight + this._ngWidgetContainer.marginBottom + this._ngWidgetContainer.marginTop));
+		if (itemHeight < this.minHeight) newSize.y = Math.round(Math.ceil((this.minHeight + this._ngWidgetContainer.marginBottom + this._ngWidgetContainer.marginTop) / (this._ngWidgetContainer.rowHeight + this._ngWidgetContainer.marginBottom + this._ngWidgetContainer.marginTop)));
 
 		return newSize;
 	}

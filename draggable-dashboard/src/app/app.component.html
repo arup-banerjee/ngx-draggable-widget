@@ -1,10 +1,10 @@
-﻿<nav class="navbar navbar-default">
+﻿<!-- <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Company Name</a>
         </div>
         <div class="nav navbar-nav navbar-right">
-            <a (click)="addBox()" class="btn btn-primary pull-right navbar-btn" style='margin-right: 10px;'>Add Widget</a>
+            <a (click)="addWidget()" class="btn btn-primary pull-right navbar-btn" style='margin-right: 10px;'>Add Widget</a>
         </div>
         <div class="row navbar-brand pull-right centre-content">
             <div class="col-xs-3">Some Label</div>
@@ -12,67 +12,38 @@
             <div class="col-xs-3">Sign In</div>
             <div class="col-xs-3">Some Link</div>
         </div>
-
     </div>
-</nav>
-<div [ngWidgetContainer]="gridConfig">
-
-    <div *ngFor="let box of boxes; let i = index" [(ngWidget)]="box.config" (onItemChange)="updateItem(i, $event)" (onResize)="onResize(i, $event)" (onDrag)="onDrag(i, $event)">
-        <div style="vertical-align: middle; width: 20px; float:left;margin-top: 7px;">
-            <tooltip-content #myTooltip>
-                 <b>Very</b> <span style="color: #C21F39">Dynamic</span> <span style="color: #00b3ee">Reusable</span>
-                <b><i><span style="color: #ffc520">Tooltip With</span></i></b> <small>Html support</small>. 
-                 <table class="tool-tip-table table-stripped">
-                    <tr>
-                        <th>Company</th>
-                        <th>Contact</th>
-                        <th>Country</th>
-                    </tr>
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                    </tr>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-                    <tr>
-                        <td>Ernst Handel</td>
-                        <td>Roland Mendel</td>
-                        <td>Austria</td>
-                    </tr>
-                    <tr>
-                        <td>Island Trading</td>
-                        <td>Helen Bennett</td>
-                        <td>UK</td>
-                    </tr>
-                    <tr>
-                        <td>Laughing Bacchus Winecellars</td>
-                        <td>Yoshi Tannamuri</td>
-                        <td>Canada</td>
-                    </tr>
-                    <tr>
-                        <td>Magazzini Alimentari Riuniti</td>
-                        <td>Giovanni Rovelli</td>
-                        <td>Italy</td>
-                    </tr>
-                </table> 
-            </tooltip-content>
-            <img [tooltip]="myTooltip" src="assets/gridtitlecollapse.png">
+</nav> -->
+<div class="widget-container">
+    <md-toolbar class="navbar-default">
+        <div>Company Name</div>
+        <div class="row navbar-default navbar-brand pull-right centre-content ">
+            <div class="col-xs-3 ">Some Label</div>
+            <div class="col-xs-3 ">Some Action</div>
+            <div class="col-xs-3 ">Sign In</div>
+            <div class="col-xs-3 ">Some Link</div>
         </div>
-        <div class="handle">{{box.name}}
-            <div class="box-header-btns pull-right">
-                <a title="Remove widget" (click)="removeWidget(i);">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </a>
+        <div>
+            <a (click)="addWidget() " class="btn btn-primary pull-right navbar-btn " style='margin-right: 10px;'>Add Widget</a>
+        </div>
+    </md-toolbar>
+    <div [ngWidgetContainer]="widgetConfig ">-
+        <div *ngFor="let widget of widgets; let i=i ndex " [(ngWidget)]="widget.config " (onItemChange)="updateItem(i, $event) " (onResize)="onResize(i, $event) " (onDrag)="onDrag(i, $event) ">
+            <div style="vertical-align: middle; width: 20px; float:left;margin-top: 7px; ">
+                <img src="assets/gridtitlecollapse.png ">
             </div>
-        </div>
-        <div [ngSwitch]="box.id" >
-            <app-simple-market *ngSwitchCase="1"></app-simple-market>
-            <app-simple-market *ngSwitchCase="2"></app-simple-market>
-            <app-complex-market *ngSwitchCase="4"></app-complex-market>
+            <div class="handle ">{{widget.name}}
+                <div class="box-header-btns pull-right ">
+                    <a title="Remove widget " (click)="removeWidget(i); ">
+                        <i class="glyphicon glyphicon-trash "></i>
+                    </a>
+                </div>
+            </div>
+            <div [ngSwitch]="widget.id ">
+                <app-simple-market *ngSwitchCase="1 "></app-simple-market>
+                <app-simple-market *ngSwitchCase="2 "></app-simple-market>
+                <app-complex-market *ngSwitchCase="4 "></app-complex-market>
+            </div>
         </div>
     </div>
 </div>
