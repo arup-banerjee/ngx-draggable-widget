@@ -31,6 +31,21 @@ This will give you a fully compiled version of the demo that you can run using t
 
 NOTE: By default Angular 4 and System.js are not listed as actual dependencies, but as peer dependencies, so that npm doesn't install them on systems that just require the install file. If they are not installed, this could cause `ng serve` or `ng build` to fail. To fix this, run `npm install angular systemjs` and rerun the build command.
 
+## Angular cli projects and styles
+If you are already using a cli project or creating a new cli project, you may find useful to add the NgDraggableWidget.css to the styles in .angular-cli.json. 
+```javascript
+        "styles": [
+            "../node_modules/ngx-draggable-widget/NgDraggableWidget.css"
+        ],
+```
+You can change the widget-container background-color for default to whichever suits you in your suitable scss , css file for example in style.scss or app.component.scss .. or wherever logical suits your need
+like below
+```javascript
+.widget-container {
+    background-color: #282828;
+} 
+```
+
 #### Config
 -----------
 
