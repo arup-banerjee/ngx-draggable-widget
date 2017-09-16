@@ -234,5 +234,4 @@ Alternatively, you can use the bundled version by setting the `map` value to `'n
 
 ## Credits
 
-The library is inspired by and based on the work from [angular2-grid](https://github.com/BTMorton/angular2-grid). Also used Angular Material and scss for the demo although
-the library itself has no dependency on Angular Material.
+The library is inspired by [angular2-grid](https://github.com/BTMorton/angular2-grid)

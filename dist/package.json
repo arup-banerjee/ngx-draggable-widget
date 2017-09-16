@@ -1,6 +1,6 @@
 {
     "name": "ngx-draggable-widget",
-    "version": "1.0.4",
+    "version": "1.0.6",
     "description": "drag and drop, resize, cascade, overlap 'ngWidgetContainer' and 'ngWidget', structural directive component library",
     "module": "main.js",
     "main": "bundles/NgDraggableWidget.umd.min.js",
