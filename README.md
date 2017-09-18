@@ -55,7 +55,7 @@ To configure the widget container with your own options, it is as easy as adding
 
 |Property|Deafult|Description|
 |:-------|:------|:----------|
-|margins|10|The size of the margins of each widget item. Supports up to four values in the same way as CSS margins. Can be updated using setMargins()|
+|margins|10|The size of the margins of each widget item. Supports up to four values in the same way as CSS margins. Can be updated using setMargins()
 |draggable|true|Whether the widgets can be dragged. Can be updated using enableDrag()/disableDrag()
 |resizable|true|Whether the widgets can be resized. Can be updated using enableResize()/disableResize()
 |max_cols|0|The maximum number of columns allowed. Set to 0 for infinite. Cannot be used with max_rows
@@ -81,8 +81,9 @@ To configure the widget container with your own options, it is as easy as adding
 |widget_height_factor|22|number of pixels that defines a logical user defined height. By default this is not set.However if this is set then unity in the respective widget will be used to set the initial size of the the widget height and override sizey of the widget. Note this is only meaningful to the widgets if they specifically have unity defined. Else this value has no effect
 
 The defaults for the widget item are:
+
 |Property|Default|Description|
-|--------|:-----|:---------|
+|:-------|:-----|:---------|
 |col|1|The start column for the widget|
 |row|1|The start row for the widget
 |sizex|1|The start width in terms of columns for the widget
