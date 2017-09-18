@@ -53,6 +53,7 @@ To use this in your own application, all you need to do is add the **`[ngWidgetC
 
 To configure the widget container with your own options, it is as easy as adding them as the attribute value. The defaults for the widget container are:
 
+#### Widget Container Defaults
 |Property|Deafult|Description|
 |:-------|:------|:----------|
 |margins|10|The size of the margins of each widget item. Supports up to four values in the same way as CSS margins. Can be updated using setMargins()
@@ -80,7 +81,7 @@ To configure the widget container with your own options, it is as easy as adding
 |widget_width_factor|22|number of pixels that defines a logical user defined width. By default this is not set.However if this is set then unitx in the respective widget will be used to set the initial size of the the widget and override sizex of the widget. Note this is only meaningful to the widgets if they specifically have unitx defined. Else this value has no effect
 |widget_height_factor|22|number of pixels that defines a logical user defined height. By default this is not set.However if this is set then unity in the respective widget will be used to set the initial size of the the widget height and override sizey of the widget. Note this is only meaningful to the widgets if they specifically have unity defined. Else this value has no effect
 
-The defaults for the widget item are:
+#### The defaults for the widget item are:
 
 |Property|Default|Description|
 |:-------|:-----|:---------|
