@@ -7,6 +7,7 @@ import {TooltipModule} from 'ngx-tooltip';
 import { SimpleMarketComponent } from './simple-market/simple-market.component';
 import { ComplexMarketComponent } from './complex-market/complex-market.component';
 import 'hammerjs';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import 'hammerjs';
     NgDraggableWidgetModule,
     TooltipModule,
     MaterialModule,
+    HttpModule,
     BrowserModule
   ],
   providers: [],

@@ -27,19 +27,21 @@
             <a (click)="addWidget() " class="btn btn-primary pull-right navbar-btn " style='margin-right: 10px;'>Add Widget</a>
         </div>
     </md-toolbar>
-    <div [ngWidgetContainer]="widgetConfig ">-
-        <div *ngFor="let widget of widgets; let i=i ndex " [(ngWidget)]="widget.config " (onItemChange)="updateItem(i, $event) " (onResize)="onResize(i, $event) " (onDrag)="onDrag(i, $event) ">
+    <!-- <div [ngWidgetContainer]="widgetContainerConfig "> -->
+    <div [ngWidgetContainer]="(dashboardconfig$ | async)?.WidgetContainer ">
+        <!-- <div *ngFor="let widgetmetadata of widgetsMetaData; let i=index " [(ngWidget)]="widgetmetadata.config " (onItemChange)="updateItem(i, $event) " (onResize)="onResize(i, $event) " (onDrag)="onDrag(i, $event) "> -->
+        <div *ngFor="let widgetmetadata of (dashboardconfig$ | async)?.Widgets; let i=index " [(ngWidget)]="widgetmetadata.config " (onItemChange)="updateItem(i, $event) " (onResize)="onResize(i, $event) " (onDrag)="onDrag(i, $event) ">
             <div style="vertical-align: middle; width: 20px; float:left;margin-top: 7px; ">
                 <img src="assets/gridtitlecollapse.png ">
             </div>
-            <div class="handle ">{{widget.name}}
+            <div class="handle ">{{widgetmetadata.name}}
                 <div class="box-header-btns pull-right ">
                     <a title="Remove widget " (click)="removeWidget(i); ">
                         <i class="glyphicon glyphicon-trash "></i>
                     </a>
                 </div>
             </div>
-            <div [ngSwitch]="widget.id ">
+            <div [ngSwitch]="widgetmetadata.id ">
                 <app-simple-market *ngSwitchCase="1 "></app-simple-market>
                 <app-simple-market *ngSwitchCase="2 "></app-simple-market>
                 <app-complex-market *ngSwitchCase="4 "></app-complex-market>
